@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AppRunnerSrvc", "AppRunnerSrvc.csproj", "{DA3DE12F-8D17-495B-8FFE-A561C2190405}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\Utils\Utils.csproj", "{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DA3DE12F-8D17-495B-8FFE-A561C2190405}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DA3DE12F-8D17-495B-8FFE-A561C2190405}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DA3DE12F-8D17-495B-8FFE-A561C2190405}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DA3DE12F-8D17-495B-8FFE-A561C2190405}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
