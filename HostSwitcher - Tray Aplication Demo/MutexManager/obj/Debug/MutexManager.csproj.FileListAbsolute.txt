@@ -1,0 +1,5 @@
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\MutexManager\bin\Debug\MutexManager.dll
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\MutexManager\bin\Debug\MutexManager.pdb
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\MutexManager\obj\Debug\MutexManager.csprojResolveAssemblyReference.cache
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\MutexManager\obj\Debug\MutexManager.dll
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\MutexManager\obj\Debug\MutexManager.pdb

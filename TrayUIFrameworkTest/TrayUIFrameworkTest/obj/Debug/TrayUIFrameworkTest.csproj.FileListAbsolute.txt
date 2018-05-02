@@ -1,0 +1,10 @@
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\bin\Debug\TrayUIFrameworkTest.exe.config
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\bin\Debug\TrayUIFrameworkTest.exe
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\bin\Debug\TrayUIFrameworkTest.pdb
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\obj\Debug\TrayUIFrameworkTest.csprojResolveAssemblyReference.cache
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\obj\Debug\TrayUIFrameworkTest.Properties.Resources.resources
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\obj\Debug\TrayUIFrameworkTest.csproj.GenerateResource.Cache
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\obj\Debug\TrayUIFrameworkTest.exe
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\obj\Debug\TrayUIFrameworkTest.pdb
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\bin\Debug\Utils.dll
+D:\Development\SRC\My\TrayUIFrameworkTest\TrayUIFrameworkTest\bin\Debug\Utils.pdb

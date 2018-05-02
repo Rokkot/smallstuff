@@ -1,0 +1,14 @@
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\bin\Debug\WpfFormLibrary.dll
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\bin\Debug\WpfFormLibrary.pdb
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.csprojResolveAssemblyReference.cache
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\IntroForm.baml
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\IntroForm.g.cs
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\GeneratedInternalTypeHelper.g.cs
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary_MarkupCompile.cache
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary_MarkupCompile.lref
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\Themes\Generic.baml
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.g.resources
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.Properties.Resources.resources
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.csproj.GenerateResource.Cache
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.dll
+D:\Development\SRC\My\HostSwitcher - Tray Aplication Demo\WpfFormLibrary\obj\Debug\WpfFormLibrary.pdb

@@ -1,0 +1,9 @@
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\CommunicationLayer.dll
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\CommunicationLayer.pdb
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\Utils.dll
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\Utils.pdb
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\obj\Debug\CommunicationLayer.csprojResolveAssemblyReference.cache
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\obj\Debug\CommunicationLayer.dll
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\obj\Debug\CommunicationLayer.pdb
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\Settings.config
+D:\Development\SRC\MyCode\smallstuff\Communication\CommunicationLayer\bin\CommunicationLayer.dll.config
