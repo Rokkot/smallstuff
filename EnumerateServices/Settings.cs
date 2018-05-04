@@ -9,7 +9,7 @@ namespace EnumerateServices
 {
 	public class SettingsMngr
 	{
-		public SettingsMngr()
+		static SettingsMngr()
 		{
 #if DEBUG
 			try
@@ -52,7 +52,7 @@ namespace EnumerateServices
 			return null;
 		}
 
-		public void InitSettingObjecForDebugModeSettingFileCreationDelegate(out Settings _tSettings)
+		static void InitSettingObjecForDebugModeSettingFileCreationDelegate(out Settings _tSettings)
 		{
 			_tSettings = null;
 
