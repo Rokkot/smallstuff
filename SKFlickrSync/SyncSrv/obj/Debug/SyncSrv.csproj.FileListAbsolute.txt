@@ -1,1 +1,0 @@
-D:\Development\SRC\My\SKFlickrSync\SyncSrv\bin\SKFlickrSync.exe.config

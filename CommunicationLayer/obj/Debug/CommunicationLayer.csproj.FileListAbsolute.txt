@@ -1,7 +1,0 @@
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\obj\Debug\CommunicationLayer.csprojResolveAssemblyReference.cache
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\bin\Debug\CommunicationLayer.dll
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\bin\Debug\CommunicationLayer.pdb
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\bin\Debug\Utils.dll
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\bin\Debug\Utils.pdb
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\obj\Debug\CommunicationLayer.dll
-D:\Development\SRC\MyCode\smallstuff\CommunicationLayer\obj\Debug\CommunicationLayer.pdb

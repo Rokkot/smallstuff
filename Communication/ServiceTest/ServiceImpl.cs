@@ -12,7 +12,7 @@ using CommunicationLayer;
 
 namespace Service
 {
-	partial class ServiceImpl : ServiceBase, ICustomServiceControl
+	partial class ServiceImpl : ServiceBase //, ICustomServiceControl
 	{
 		private CommunicatorController m_CommunicationServiceControl = null;
 

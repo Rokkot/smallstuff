@@ -1,6 +1,0 @@
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\bin\Debug\FileLockInfo.exe.config
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\bin\Debug\FileLockInfo.exe
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\bin\Debug\FileLockInfo.pdb
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\obj\Debug\FileLockInfo.csprojResolveAssemblyReference.cache
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\obj\Debug\FileLockInfo.exe
-D:\Development\SRC\My\FileLockInfo\FileLockInfo\obj\Debug\FileLockInfo.pdb
