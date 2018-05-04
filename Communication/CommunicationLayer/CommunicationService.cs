@@ -52,8 +52,10 @@ namespace CommunicationLayer
 				// ...
 				//
 
-				//for test
-				if (_data != null)
+				/////////////////////////////////////////////////////////////////////////////////
+                //FOR TEST ONLY!!! SKislyuk 5/4/2018 11:55:09 AM
+                //
+                if (_data != null)
 				{
 					switch (_data.CommandID)
 					{
@@ -65,6 +67,10 @@ namespace CommunicationLayer
 							break;
 					}
 				}
+                //
+                //END TEST CODE!!!
+                /////////////////////////////////////////////////////////////////////////////////
+
 
 				// if command executed successfully return true
 				bRetCode = true;

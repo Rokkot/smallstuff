@@ -25,12 +25,12 @@ namespace Utils
 
 		public static void Main_Service_Console<T>()
 		{
-			Main_Service_Console<T>(null, null, string.Empty, false);
+			Main_Service_Console<T>(null, null, string.Empty, true);
 		}
 
 		public static void Main_Service_Console<T>(StartDelegate _StartDelegate, StopDelegate _StopDelegate)
 		{
-			Main_Service_Console<T>(_StartDelegate, _StopDelegate, string.Empty, false);
+			Main_Service_Console<T>(_StartDelegate, _StopDelegate, string.Empty, true);
 		}
 
 		public static void Main_Service_Console<T>(StartDelegate _StartDelegate, StopDelegate _StopDelegate, string _sApplicationName, bool _bShouldRunAsSingleInstance)
@@ -52,22 +52,30 @@ namespace Utils
 
 						if (createdNew)
 						{
-							
-							//@cmnt SKislyuk: [03 November 16, 14:33:02]   [161103_143302]
-							// running as console app
-							if (_StartDelegate != null)
-							{
-								_StartDelegate();
-							}
 
-							Console.WriteLine("Press any key to stop...");
+                            //@cmnt SKislyuk: [03 November 16, 14:33:02]   [161103_143302]
+                            // running as console app
+                            //
+                            //if (_StartDelegate != null)
+                            //{
+                            //	_StartDelegate();
+                            //}
+                            // the following like equivalent to code commented above
+                            _StartDelegate?.Invoke();
+
+
+                            Console.WriteLine("Press any key to stop...");
 							Console.ReadKey(true);
-
-							if (_StopDelegate != null)
-							{
-								_StopDelegate();
-							}
-						}
+                            // SKislyuk 5/4/2018 11:42:43 AM
+                            // stopping app
+                            //
+                            //if (_StopDelegate != null)
+                            //{
+                            //_StopDelegate();
+                            //}
+                            // the following like equivalent to code commented above
+                            _StopDelegate?.Invoke();
+                        }
 						else
 						{
 							ShowProcess();

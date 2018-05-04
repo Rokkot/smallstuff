@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.24720.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27130.2036
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ServiceTest", "ServiceTest.csproj", "{AAECEB42-D406-4EDE-B54E-C0C4D9D4F583}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Utils", "..\..\Utils\Utils.csproj", "{A8DAA5CA-4538-4D4B-87B2-CC65FC6291D5}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CommunicationLayer", "..\CommunicationLayer\CommunicationLayer.csproj", "{7E78C04C-3D7C-4C68-B383-12E4433F1484}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPCommLib", "..\HTTPCommLib\HTTPCommLib.csproj", "{148F6528-1973-4799-AADF-EEBCEC527D3B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,8 +29,15 @@ Global
 		{7E78C04C-3D7C-4C68-B383-12E4433F1484}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7E78C04C-3D7C-4C68-B383-12E4433F1484}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7E78C04C-3D7C-4C68-B383-12E4433F1484}.Release|Any CPU.Build.0 = Release|Any CPU
+		{148F6528-1973-4799-AADF-EEBCEC527D3B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{148F6528-1973-4799-AADF-EEBCEC527D3B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{148F6528-1973-4799-AADF-EEBCEC527D3B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{148F6528-1973-4799-AADF-EEBCEC527D3B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27C2C993-85B0-482E-A569-03C92B93A13C}
 	EndGlobalSection
 EndGlobal

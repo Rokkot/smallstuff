@@ -14,33 +14,33 @@ namespace Service
 {
 	partial class ServiceImpl : ServiceBase //, ICustomServiceControl
 	{
-		private CommunicatorController m_CommunicationServiceControl = null;
+		//private CommunicatorController m_CommunicationServiceControl = null;
 
 		public ServiceImpl()
 		{
 			InitializeComponent();
 
-			m_CommunicationServiceControl = new CommunicatorController();
+			//m_CommunicationServiceControl = new CommunicatorController();
 		}
 
 		protected override void OnStart(string[] args)
 		{
-			m_CommunicationServiceControl.StartCommunicationService();
+			//m_CommunicationServiceControl.StartCommunicationService();
 		}
 
 		protected override void OnStop()
 		{
-			m_CommunicationServiceControl.StopCommunicationService();
+			//m_CommunicationServiceControl.StopCommunicationService();
 		}
 
 		public void StartCustomService()
 		{
-			m_CommunicationServiceControl.StartCommunicationService();
+			//m_CommunicationServiceControl.StartCommunicationService();
 		}
 
 		public void StopCustomService()
 		{
-			m_CommunicationServiceControl.StopCommunicationService();
+			//m_CommunicationServiceControl.StopCommunicationService();
 		}
 	}
 }

@@ -13,7 +13,7 @@ namespace ServiceTest
 	{
 		static void Main(string[] args)
 		{
-			SKMain.Main_Service_Console<ServiceImpl>(Assembly.GetExecutingAssembly().GetName().Name, true);
+			SKMain.Main_Service_Console<ServiceImpl>();
 		}
 	}
 }

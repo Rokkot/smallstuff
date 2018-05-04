@@ -12,7 +12,7 @@ namespace SKFlickrSync
 	{
 		static void Main(string[] args)
 		{
-			SKMain.Service_Console_Main<SKFlickrSyncService>();
+			SKMain.Main_Service_Console<SKFlickrSyncService>();
 		}
 	}
 }
