@@ -12,23 +12,37 @@ using Utils;
 namespace HTTPCommLib
 {
     public delegate RequestMessage ProcessPOST(RequestMessage request);
+    public delegate RequestMessage ProcessGet();
 
-    public class CommandController : EnterpriseBaseController
+    public class CommandController : ApiController
     {
         ProcessPOST dlgtPOST = null;
 
+        ProcessGet dlgtGet = null;
+
         public ProcessPOST DlgtPOST { get => dlgtPOST; set => dlgtPOST = value; }
+
+        public ProcessGet DlgGet { get => dlgtGet; set => dlgtGet = value; }
 
         [Route("Command")]
         [HttpGet]
         public HttpResponseMessage Get()
         {
-            RequestMessage rm = new RequestMessage();
+            try
+            {
+                RequestMessage rm = new RequestMessage();
 
-            rm.State = HttpStatusCode.OK;
-            rm.TimeStamp = DateTime.Now;
+                // SKislyuk 5/4/2018 2:19:32 PM
+                // Process Get request
+                rm = DlgGet?.Invoke();
 
-            return GetHttpResponseMessage(rm);
+                return HTTPHelper.GetHttpResponseMessage(rm);
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "9d168b63-ed34-49c1-80fb-ddbc4cfffafe");
+                return HTTPHelper.GetHttpErrorMessage(exp.Message, "9d168b63-ed34-49c1-80fb-ddbc4cfffafe");
+            }
         }
 
         [Route("Command")]
@@ -41,23 +55,18 @@ namespace HTTPCommLib
 
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Post request
-                RequestMessage rm = dlgtPOST?.Invoke((RequestMessage)GetObjectFromJsonString(sIn));
+                RequestMessage rm = dlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
 
                 HttpResponseMessage responseMessage = new HttpResponseMessage();
-                responseMessage.Content = GetJsonStringAsHttpContentFromObject(rm);
-                responseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(EnterpriseBaseController.ApplicationJson);
+                responseMessage.Content = HTTPHelper.GetJsonStringAsHttpContentFromObject(rm);
+                responseMessage.Content.Headers.ContentType = new MediaTypeHeaderValue(HTTPHelper.APPLICATION_JSON);
                 responseMessage.StatusCode = HttpStatusCode.OK;
                 return responseMessage;
             }
             catch (Exception exp)
             {
                 Logger.WriteError(exp, "7f357739-b349-4a2d-b3ea-41ba845c9b46");
-
-                HttpResponseMessage errorResponseMessage = new HttpResponseMessage();
-                errorResponseMessage.Content = new StringContent(exp.Message);
-                errorResponseMessage.StatusCode = HttpStatusCode.InternalServerError;
-
-                return errorResponseMessage;
+                return HTTPHelper.GetHttpErrorMessage(exp.Message, "7f357739-b349-4a2d-b3ea-41ba845c9b46");
             }
 
         }
