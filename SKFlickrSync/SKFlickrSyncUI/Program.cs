@@ -12,7 +12,9 @@ namespace SKFlickrSyncUI
 		[STAThread]
 		static void Main()
 		{
-			SKMain.Main_WinTrayApp(FlickrSyncMonitorForm.APP_NAME, "Flickr_1.jpg");
+            AppContextManager context = new AppContextManager();
+
+            SKMain.Main_WinTrayApp(context.AppContext, FlickrSyncMonitorForm.APP_NAME, true);
 
 			//Application.EnableVisualStyles();
 			//Application.SetCompatibleTextRenderingDefault(false);

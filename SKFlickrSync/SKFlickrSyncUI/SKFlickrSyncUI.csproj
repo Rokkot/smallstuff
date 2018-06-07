@@ -46,6 +46,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppContextManager.cs" />
     <Compile Include="FlickrSyncMonitorForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +63,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -77,8 +79,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Flickr_1.jpg" />
-    <Content Include="Flickr_2.jpg" />
+    <EmbeddedResource Include="Resources\Flickr_1.jpg" />
+    <EmbeddedResource Include="Resources\Flickr_2.jpg" />
+    <EmbeddedResource Include="Resources\Flickr_3.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Utils\Utils.csproj">
