@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Text;
 using System.Xml;
@@ -10,14 +11,14 @@ namespace Utils
 {
 	public static class Serialization
 	{
-		public static object DeserializeObject(string pXmlizedString, Type tp)
+		public static object DeserializeObject(string _sXml, Type _tp)
 		{
 			try
 			{
-				XmlSerializer xs = new XmlSerializer(tp);
+				XmlSerializer xs = new XmlSerializer(_tp);
 
 
-				MemoryStream memoryStream = new MemoryStream(StringToUnicodeByteArray(pXmlizedString));
+				MemoryStream memoryStream = new MemoryStream(StringToUnicodeByteArray(_sXml));
 
 				XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.Unicode);
 
@@ -31,17 +32,17 @@ namespace Utils
 			return null;
 		}
 
-		public static string SerializeObject(object pObject)
+		public static string SerializeObject(object _o)
 		{
 			try
 			{
 				String XmlizedString = null;
 				MemoryStream memoryStream = new MemoryStream();
-				XmlSerializer xs = new XmlSerializer(pObject.GetType());
+				XmlSerializer xs = new XmlSerializer(_o.GetType());
 
 				XmlTextWriter xmlTextWriter = new XmlTextWriter(memoryStream, Encoding.Unicode);
 
-				xs.Serialize(xmlTextWriter, pObject);
+				xs.Serialize(xmlTextWriter, _o);
 				memoryStream = (MemoryStream)xmlTextWriter.BaseStream;
 
 				XmlizedString = UnicodeByteArrayToString(memoryStream.ToArray());
@@ -56,18 +57,18 @@ namespace Utils
 			return string.Empty;
 		}
 
-		private static Byte[] StringToUnicodeByteArray(string pXmlString)
+		private static Byte[] StringToUnicodeByteArray(string _sXml)
 		{
 			UnicodeEncoding encoding = new UnicodeEncoding();
-			Byte[] byteArray = encoding.GetBytes(pXmlString);
+			Byte[] byteArray = encoding.GetBytes(_sXml);
 			return byteArray;
 		}
 
-		private static string UnicodeByteArrayToString(byte[] characters)
+		private static string UnicodeByteArrayToString(byte[] _characters)
 		{
 			UnicodeEncoding encoding = new UnicodeEncoding();
-			String constructedString = encoding.GetString(characters);
+			String constructedString = encoding.GetString(_characters);
 			return (constructedString);
 		}
-	}
+    }
 }

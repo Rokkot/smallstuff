@@ -38,6 +38,7 @@ namespace TrayUIFrameworkTest
 
 		private void OnExit()
 		{
+
 			MessageBox.Show("Exit");
 		}
 
