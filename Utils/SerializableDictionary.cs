@@ -13,7 +13,8 @@ namespace Utils
     {
         private string m_sDataFileName = string.Empty;
 
-        Dictionary<K, T> m_dictData = null;
+        private Dictionary<K, T> m_dictData = null;
+        private bool m_bIsDataLoaded = false;
 
         public SerializableDictionary()
         {
@@ -29,6 +30,11 @@ namespace Utils
         {
             get
             {
+                if (ContainsKey(_sKey) == false)
+                {
+                    m_dictData.Add(_sKey, default(T));
+                }
+
                 return (m_dictData.ContainsKey(_sKey)) ? m_dictData[_sKey] : default(T);
             }
         }
@@ -75,15 +81,26 @@ namespace Utils
         {
             try
             {
-                if ((m_dictData != null)
+                if (((m_dictData != null) && (m_bIsDataLoaded == true))
                     && (_bReload == false))
                 {
                     return;
                 }
 
-                string sData = Compression.Decompress(File.ReadAllText(GetFilePath()));
+                string sDataFilePath = GetFilePath();
 
-                m_dictData = (Dictionary<K, T>)JsonConvert.DeserializeObject(sData, typeof(Dictionary<K, T>));
+                if (File.Exists(sDataFilePath))
+                {
+                    string sData = Compression.Decompress(File.ReadAllText(sDataFilePath));
+
+                    m_dictData = (Dictionary<K, T>)JsonConvert.DeserializeObject(sData, typeof(Dictionary<K, T>));
+
+                    m_bIsDataLoaded = true;
+                }
+                else
+                {
+                    Logger.WriteErrorLogOnly("The data file {0} not found.", "8dcf0421-d278-4220-885a-cde09bd3f531");
+                }
             }
             catch (Exception exp)
             {

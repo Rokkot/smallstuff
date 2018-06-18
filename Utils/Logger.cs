@@ -155,5 +155,10 @@ namespace Utils
 				WriteEmergencyLog(exp.Message, "17ae5e60-f140-43c2-b6ad-832fb93e7c6b");
 			}
 		}
-	}
+
+        public static void ShowErrorMessageBox(string _sText)
+        {
+            MessageBox.Show(_sText, Assembly.GetExecutingAssembly().GetName().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+    }
 }
