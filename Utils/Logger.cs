@@ -21,7 +21,7 @@ namespace Utils
 		{
 			try
 			{
-				string sAssemblyPath = Assembly.GetExecutingAssembly().Location;
+				string sAssemblyPath = Assembly.GetEntryAssembly().Location;
 
 				sAssemblyPath = Path.GetDirectoryName(sAssemblyPath);
 
@@ -126,7 +126,7 @@ namespace Utils
 				string sSource;
 				string sLog;
 
-				sSource = Assembly.GetExecutingAssembly().GetName().Name;
+				sSource = Assembly.GetEntryAssembly().GetName().Name;
 				sLog = "Application";
 
 				if (!EventLog.SourceExists(sSource))
@@ -156,9 +156,28 @@ namespace Utils
 			}
 		}
 
-        public static void ShowErrorMessageBox(string _sText)
+        public static void ShowMessageBox(string _sText, MessageBoxButtons _mButton, MessageBoxIcon _mIcon)
         {
-            MessageBox.Show(_sText, Assembly.GetExecutingAssembly().GetName().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show(_sText, Assembly.GetEntryAssembly().GetName().Name, _mButton, _mIcon);
+        }
+
+        public static void ShowErrorMessageBox(String format, params object[] args)
+        {
+            ShowMessageBox(string.Format(format, args), MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void ShowErrorMessageBox(Exception exp, String format, params object[] args)
+        {
+            string sText = string.Format("{0} \r\nSystem error: {1}", string.Format(format, args), exp.Message);
+
+            ShowMessageBox(sText, MessageBoxButtons.OK, MessageBoxIcon.Error);
+        }
+        public static void ShowInfoMessageBox(String format, params object[] args)
+        {
+            ShowMessageBox(string.Format(format, args), MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+        public static void ShowWarningMessageBox(String format, params object[] args)
+        {
+            ShowMessageBox(string.Format(format, args), MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 }

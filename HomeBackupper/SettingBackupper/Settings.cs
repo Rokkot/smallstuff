@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Backupper
+namespace SettingBackupper
 {
     public enum enumWeekdays
     {
@@ -45,10 +42,13 @@ namespace Backupper
         public string FolderSourcePath { get; set; }
         public long NumberOfFilesInSource { get; set; }
         public long NumberOfSubFolderInSource { get; set; }
+        public long SizeOfFolderInSource { get; set; }
+        public long SizeOfFolderInDestination { get; set; }
         public long NumberOfFilesInDestination { get; set; }
         public long NumberOfSubFoldersInDestination { get; set; }
         public string ChecksumSource { get; set; }
         public string ChecksumDestination { get; set; }
+        public bool IsDeleted { get; set; }
 
         public Type GetUnitType()
         {

@@ -44,6 +44,32 @@ namespace Utils
             return (m_dictData.ContainsKey(_sKey)) ? m_dictData[_sKey] : default(T);
         }
 
+        public List<T> ValuesToList()
+        {
+            try
+            {
+               return m_dictData.Values.ToList();
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "7ce8049a-2457-4864-95c9-6e251070677c");
+                return null;
+            }
+        }
+
+        public List<K> KeysToList()
+        {
+            try
+            {
+                return m_dictData.Keys.ToList();
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "36d125e3-b400-4ff4-a3e8-077cba69f6d1");
+                return null;
+            }
+        }
+
         public bool ContainsKey(K _sKey)
         {
             return m_dictData.ContainsKey(_sKey);

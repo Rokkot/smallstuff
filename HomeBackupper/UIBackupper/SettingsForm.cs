@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SettingBackupper;
+using System;
 using System.Windows.Forms;
 using Utils;
 
@@ -7,13 +8,11 @@ namespace Backupper
     public partial class SettingsForm : Form
     {
         private SerializableDictionary<string, Settings> m_dictSettings = null;
-        private SerializableDictionary<string, FolderInfo> m_FI = null;
         private Settings m_Settings = null;
 
         public SettingsForm()
         {
             m_dictSettings = new SerializableDictionary<string, Settings>();
-            m_FI = new SerializableDictionary<string, FolderInfo>();
 
             InitializeComponent();
         }
@@ -23,7 +22,6 @@ namespace Backupper
             try
             {
                 m_dictSettings.LoadData();
-                m_FI.LoadData();
 
                 m_Settings = m_dictSettings[Settings.GetUnitKey()];
 
@@ -96,7 +94,7 @@ namespace Backupper
             {
                 Logger.WriteErrorLogOnly(exp, "e59c96fd-58d0-421f-9be1-ca96641f12bd");
 
-                Logger.ShowErrorMessageBox(string.Format("Failed to save settings to file.\r\nSystem error: {0}", exp.Message));
+                Logger.ShowErrorMessageBox(exp, "Failed to save settings to file.");
             }
         }
 
@@ -106,9 +104,10 @@ namespace Backupper
             {
                 fb.SelectedPath = textBox_BackupRoot.Text;
 
-                fb.ShowDialog();
-
-                textBox_BackupRoot.Text = fb.SelectedPath;
+                if (fb.ShowDialog() == DialogResult.OK)
+                {
+                    textBox_BackupRoot.Text = fb.SelectedPath;
+                }
             }
         }
     }

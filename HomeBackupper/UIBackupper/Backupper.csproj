@@ -62,7 +62,6 @@
     <Compile Include="SettingsForm.Designer.cs">
       <DependentUpon>SettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Settings.cs" />
     <Compile Include="TrayManager.cs" />
     <EmbeddedResource Include="BackupperForm.resx">
       <DependentUpon>BackupperForm.cs</DependentUpon>
@@ -94,17 +93,25 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Utils\Utils.csproj">
-      <Project>{a8daa5ca-4538-4d4b-87b2-cc65fc6291d5}</Project>
-      <Name>Utils</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="Backupper_png.png" />
     <None Include="Backupper.ico" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Utils\Utils.csproj">
+      <Project>{a8daa5ca-4538-4d4b-87b2-cc65fc6291d5}</Project>
+      <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SettingBackupper\SettingBackupper.csproj">
+      <Project>{4c55a6e5-c8fb-484e-ad0f-7c57f05c1010}</Project>
+      <Name>SettingBackupper</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="add.ico" />
+    <Content Include="delete.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
