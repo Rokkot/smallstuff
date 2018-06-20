@@ -32,7 +32,7 @@ namespace HTTPCommLib
 
     public class HttpService
     {
-        public const string BASE_ADDRESS = "http://localhost:8080/";
+        public const string BASE_ADDRESS = "http://+:202020/";
         private static object oStartStop = null;
 
 
@@ -62,6 +62,7 @@ namespace HTTPCommLib
 
             return rm;
         }
+
         private static void DoWork(object data)
         {
             try
