@@ -13,6 +13,11 @@ namespace Backupper
     public partial class BackupperForm : Form
     {
         private SerializableDictionary<string, FolderInfo> m_FI = null;
+        private string m_sInitialFolderPath = string.Empty;
+        private long m_lFilesToBackup = 0L;
+        private long m_lBackedFiles = 0L;
+        private long m_lSizeToBackup = 0L;
+        private long m_lBackupSize = 0L;
 
         public BackupperForm()
         {
@@ -34,13 +39,24 @@ namespace Backupper
                                                , fi.NumberOfFilesInSource
                                                , fi.SizeOfFolderInDestination
                                                , fi.SizeOfFolderInSource
-                                               , fi.SizeOfFolderInDestination);
+                                               , fi.SizeOfFolderInDestination
+                                               , fi.IsDeleted);
+
+                    m_lBackedFiles += fi.NumberOfFilesInDestination;
+                    m_lBackupSize += fi.SizeOfFolderInDestination;
+                    m_lFilesToBackup += fi.NumberOfFilesInSource;
+                    m_lSizeToBackup += fi.SizeOfFolderInSource;
 
                     if (fi.IsDeleted == true)
                     {
-                        this.dataGridView.Rows[this.dataGridView.Rows.Count - 1].DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Strikeout);
+                        RemoveRestoreRow(this.dataGridView.Rows[this.dataGridView.Rows.Count - 1]);
                     }
                 }
+
+                toolStripStatusLabel_FilesToBackup.Text = GetFormatedNumber(m_lFilesToBackup);
+                toolStripStatusLabel_SizeToBackup.Text = GetFormatedNumberInGB(m_lSizeToBackup);
+                toolStripStatusLabel_BackupSize.Text = GetFormatedNumberInGB(m_lBackupSize);
+                toolStripStatusLabel_FilesInBackup.Text = GetFormatedNumber(m_lBackedFiles);
 
                 this.dataGridView.AutoResizeColumns();
             }
@@ -48,6 +64,35 @@ namespace Backupper
             {
                 Logger.WriteErrorLogOnly(exp, "eae5b998-667d-47ea-b21e-9dbfbd7ea88a");
                 Logger.ShowErrorMessageBox(exp, "Failed to load data.");
+            }
+        }
+
+        private string GetFormatedNumberInGB(long _lNumber)
+        {
+            return string.Format("{0:0.##}", (double)_lNumber/1024/1024/1024);
+        }
+
+        private string GetFormatedNumber(long _lNumber)
+        {
+            return string.Format("{0:N0}", _lNumber);
+        }
+
+        private void RemoveRestoreRow(DataGridViewRow _row)
+        {
+            try
+            {
+                if ((bool)_row.Cells["IsDeleted"].Value == true)
+                {
+                    _row.DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Strikeout);
+                }
+                else
+                {
+                    _row.DefaultCellStyle.Font = new Font("Microsoft Sans Serif", 10F, FontStyle.Regular);
+                }
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "29668dba-8bdb-41ab-abe1-f98947702107");
             }
         }
 
@@ -61,17 +106,41 @@ namespace Backupper
         {
             try
             {
-                StringBuilder sb = new StringBuilder();
+                StringBuilder sbRemoved = new StringBuilder();
+                StringBuilder sbRestored = new StringBuilder();
 
                 foreach (DataGridViewRow row in this.dataGridView.SelectedRows)
                 {
-                    m_FI[(string)row.Cells["Folder"].Value].IsDeleted = true;
-                    sb.AppendLine(m_FI[(string)row.Cells["Folder"].Value].FolderSourcePath);
+                    if ((bool)row.Cells["IsDeleted"].Value == true)
+                    {
+                        row.Cells["IsDeleted"].Value = false;
+                        sbRestored.AppendLine((string)row.Cells["Folder"].Value);
+                    }
+                    else
+                    {
+                        row.Cells["IsDeleted"].Value = true;
+                        sbRemoved.AppendLine((string)row.Cells["Folder"].Value);
+                    }
+
+                    RemoveRestoreRow(row);                    
                 }
 
-                m_FI.SaveData();
+                SaveGridData();
 
-                Logger.ShowInfoMessageBox("The following folder(s) will be removed from the backup list during the next backup session:\r\n\r\n{0}", sb.ToString());
+                string sRemoved = string.Empty;
+                string sRestored = string.Empty;
+
+                if (sbRemoved.Length > 0)
+                {
+                    sRemoved = string.Format("The following folder(s) will be removed from the backup list during the next backup session:\r\n{0}\r\n\r\n", sbRemoved.ToString());
+                }
+
+                if (sbRestored.Length > 0)
+                {
+                    sRestored = string.Format("The following folder(s) restored in the backup list:\r\n{0}", sbRestored.ToString());
+                }
+
+                Logger.ShowInfoMessageBox("{0}{1}", sRemoved, sRestored);
             }
             catch (Exception exp)
             {
@@ -86,20 +155,36 @@ namespace Backupper
             {
                 using (FolderBrowserDialog fb = new FolderBrowserDialog())
                 {
+                    fb.RootFolder = Environment.SpecialFolder.MyComputer;
+
+                    if (string.IsNullOrWhiteSpace(m_sInitialFolderPath) == false)
+                    {
+                        fb.SelectedPath = m_sInitialFolderPath;
+                    }
+
+                    fb.Description = "Select a folder you'd like to backup";
+
                     fb.ShowNewFolderButton = false;
                     if (fb.ShowDialog(this) == DialogResult.OK)
                     {
+                        m_sInitialFolderPath = fb.SelectedPath;
 
-                        if (IsFolderParentInBackup(fb.SelectedPath) == false)
+                        if (IsFolderParentInBackup(m_sInitialFolderPath) == false)
                         {
-                            this.dataGridView.Rows.Add(fb.SelectedPath
-                                                        , (long)Directory.GetDirectories(fb.SelectedPath, "*", SearchOption.AllDirectories).Count()
+                            long lFiles = (long)Directory.GetFiles(m_sInitialFolderPath, "*.*", SearchOption.AllDirectories).Count();
+
+                            this.dataGridView.Rows.Add(m_sInitialFolderPath
+                                                        , (long)Directory.GetDirectories(m_sInitialFolderPath, "*", SearchOption.AllDirectories).Count()
                                                         , (long)0 // number of sub-folders in backup
-                                                        , (long)Directory.GetFiles(fb.SelectedPath, "*.*", SearchOption.AllDirectories).Count()
+                                                        , lFiles
                                                         , (long)0 // number of files in backup
-                                                        , GetFolderSizeInMb(fb.SelectedPath)
+                                                        , GetFolderSizeInMb(m_sInitialFolderPath)
                                                         , (long)0 // size of foldes in backup
-                                                        );
+                                                        , false);
+
+                            m_lFilesToBackup += lFiles;
+
+                            toolStripStatusLabel_FilesToBackup.Text = m_lFilesToBackup.ToString();
 
                             SaveGridData();
                         }
@@ -155,7 +240,7 @@ namespace Backupper
                         fi.NumberOfSubFoldersInDestination = (long)row.Cells["NumFilesInBackup"].Value;
                         fi.SizeOfFolderInSource = (long)row.Cells["SizeMb"].Value;
                         fi.SizeOfFolderInDestination = (long)row.Cells["SizeInMbInBackup"].Value;
-                        fi.IsDeleted = false;
+                        fi.IsDeleted = (bool)row.Cells["IsDeleted"].Value;
 
                         m_FI.Add(fi.GetUnitKey(), fi);
                     }
