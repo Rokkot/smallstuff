@@ -42,6 +42,8 @@ namespace HTTPCommLib
             {
                 oStartStop = new object();
 
+                CommandController.DlgtPOST = POSTProc;
+
                 Thread worker = new Thread(HttpService.DoWork);
                 worker.Start(oStartStop);
             }
@@ -51,6 +53,15 @@ namespace HTTPCommLib
             }
         }
 
+        public static RequestMessage POSTProc(RequestMessage _Request)
+        {
+            RequestMessage rm = new RequestMessage();
+            List<object> lst = new List<object>();
+            lst.Add("Hello from Service");
+            rm.CommandParams = lst;
+
+            return rm;
+        }
         private static void DoWork(object data)
         {
             try

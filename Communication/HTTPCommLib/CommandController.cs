@@ -16,13 +16,13 @@ namespace HTTPCommLib
 
     public class CommandController : ApiController
     {
-        ProcessPOST dlgtPOST = null;
+        private static ProcessPOST dlgtPOST = null;
 
-        ProcessGet dlgtGet = null;
+        private static ProcessGet dlgtGet = null;
 
-        public ProcessPOST DlgtPOST { get => dlgtPOST; set => dlgtPOST = value; }
+        public static ProcessPOST DlgtPOST { get => dlgtPOST; set => dlgtPOST = value; }
 
-        public ProcessGet DlgGet { get => dlgtGet; set => dlgtGet = value; }
+        public static ProcessGet DlgGet { get => dlgtGet; set => dlgtGet = value; }
 
         [Route("Command")]
         [HttpGet]
@@ -55,7 +55,7 @@ namespace HTTPCommLib
 
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Post request
-                RequestMessage rm = dlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
+                RequestMessage rm = DlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
 
                 HttpResponseMessage responseMessage = new HttpResponseMessage();
                 responseMessage.Content = HTTPHelper.GetJsonStringAsHttpContentFromObject(rm);

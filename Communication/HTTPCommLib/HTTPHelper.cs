@@ -64,6 +64,13 @@ namespace HTTPCommLib
             return JsonConvert.DeserializeObject(_sO, typeof(RequestMessage));
         }
 
+        public static byte[] ConvertBytesFromObject(object _o)
+        {
+            byte[] dataBytes = Encoding.UTF8.GetBytes(JsonConvert.SerializeObject(_o, Formatting.None));
+
+            return dataBytes;
+        }
+
         public static HttpContent GetJsonStringAsHttpContentFromObject(object _o)
         {
             return new StringContent(JsonConvert.SerializeObject(_o, Formatting.None)
