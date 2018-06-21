@@ -9,7 +9,7 @@ namespace BackupperService
 	partial class ServiceImpl : ServiceBase
 	{
         BackupManager m_BackupManager = null;
-
+        public const string C_APPLICATION_NAME = "";
         public ServiceImpl()
 		{
 			InitializeComponent();
@@ -79,7 +79,8 @@ namespace BackupperService
 		{
             HttpService.Stop();
 
-            m_BackupManager.StopScheduler();
+            m_BackupManager.StopSchedulerThread();
+            m_BackupManager.StopBackupperThread();
         }
 	}
 }

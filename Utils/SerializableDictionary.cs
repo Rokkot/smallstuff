@@ -86,7 +86,11 @@ namespace Utils
             {
                 string sMyDocsPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
-                string sAssemblyPath = Path.Combine(sMyDocsPath, Assembly.GetEntryAssembly().GetName().Name);
+                string sProduct = ((AssemblyProductAttribute)Attribute.GetCustomAttribute(
+                                    Assembly.GetEntryAssembly(), typeof(AssemblyProductAttribute), false))
+                                   .Product;
+
+                string sAssemblyPath = Path.Combine(sMyDocsPath, sProduct);
 
                 if (Directory.Exists(sAssemblyPath) == false)
                 {

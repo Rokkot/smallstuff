@@ -108,7 +108,7 @@ namespace BackupperService
                 lock (oStop)
                 {
                     DateTime dtStartBackupHour = DateTime.Now;
-                    List<string> lstFoldrs = null;
+                    List<FolderInfo> lstFoldrs = null;
                     string sDestinationRoot = string.Empty;
 
                     lock (SettingsManager.Instance)
@@ -120,7 +120,7 @@ namespace BackupperService
                     lock (m_FI)
                     {
                         m_FI.LoadData();
-                        lstFoldrs = m_FI.KeysToList();
+                        lstFoldrs = m_FI.ValuesToList();
                     }
 
                     while (true)
@@ -131,14 +131,24 @@ namespace BackupperService
                         }
                         else
                         {
+                            string sFolderToDelete = string.Empty;
+
                             // if backup is running less the hours to run from settings then continue. Otherwise stop backup
                             if(IsBackupRunningTooLong(dtStartBackupHour) == false)
                             {
                                 if (lstFoldrs != null)
                                 {
-                                    foreach (string sPath in lstFoldrs)
+                                    foreach (FolderInfo fi in lstFoldrs)
                                     {
-                                        BackupFilderSearch(sPath, sDestinationRoot, dtStartBackupHour);
+                                        if (fi.IsDeleted == true)
+                                        {
+                                            BackupFilderSearch(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
+                                        }
+                                        else
+                                        {
+                                            sFolderToDelete = Path.Combine(sDestinationRoot, Path.GetDirectoryName(fi.FolderSourcePath));
+                                            Directory.Delete(sFolderToDelete, true);
+                                        }
                                     }
                                 }
                             }
@@ -291,7 +301,7 @@ namespace BackupperService
             }
         }
 
-        public void StopScheduler()
+        public void StopSchedulerThread()
         {
             try
             {
@@ -310,7 +320,7 @@ namespace BackupperService
             }
         }
 
-        public void StopBackupper()
+        public void StopBackupperThread()
         {
             try
             {

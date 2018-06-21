@@ -71,7 +71,7 @@ namespace Utils
 					return;
 				}
 
-				string sAssemblyPath = Assembly.GetExecutingAssembly().Location;
+				string sAssemblyPath = Assembly.GetEntryAssembly().Location;
 
 				sAssemblyPath = Path.GetDirectoryName(sAssemblyPath);
 
@@ -97,7 +97,7 @@ namespace Utils
 		{
 			try
 			{
-				string sAssemblyPath = Assembly.GetExecutingAssembly().Location;
+				string sAssemblyPath = Assembly.GetEntryAssembly().Location;
 
 				sAssemblyPath = Path.GetDirectoryName(sAssemblyPath);
 
@@ -135,7 +135,7 @@ namespace Utils
 			try
 			{
 
-				string sAssemblyPath = Assembly.GetExecutingAssembly().Location;
+				string sAssemblyPath = Assembly.GetEntryAssembly().Location;
 
 				sAssemblyPath = Path.GetDirectoryName(sAssemblyPath);
 
