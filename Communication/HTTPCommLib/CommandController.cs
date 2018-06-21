@@ -11,8 +11,8 @@ using Utils;
 
 namespace HTTPCommLib
 {
-    public delegate RequestMessage ProcessPOST(RequestMessage request);
-    public delegate RequestMessage ProcessGet();
+    public delegate ResponseMessage ProcessPOST(RequestMessage request);
+    public delegate ResponseMessage ProcessGet();
 
     public class CommandController : ApiController
     {
@@ -30,7 +30,7 @@ namespace HTTPCommLib
         {
             try
             {
-                RequestMessage rm = new RequestMessage();
+                ResponseMessage rm = new ResponseMessage();
 
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Get request
@@ -55,7 +55,7 @@ namespace HTTPCommLib
 
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Post request
-                RequestMessage rm = DlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
+                ResponseMessage rm = DlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
 
                 HttpResponseMessage responseMessage = new HttpResponseMessage();
                 responseMessage.Content = HTTPHelper.GetJsonStringAsHttpContentFromObject(rm);

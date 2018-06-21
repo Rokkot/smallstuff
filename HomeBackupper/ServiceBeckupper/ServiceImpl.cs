@@ -1,4 +1,5 @@
 ﻿using HTTPCommLib;
+using System;
 using System.ServiceProcess;
 using Utils;
 
@@ -7,10 +8,15 @@ namespace BackupperService
 {
 	partial class ServiceImpl : ServiceBase
 	{
-		public ServiceImpl()
+        BackupManager m_BackupManager = null;
+
+        public ServiceImpl()
 		{
 			InitializeComponent();
-		}
+
+            m_BackupManager = new BackupManager();
+
+        }
 
 		protected override void OnStart(string[] args)
 		{
@@ -19,19 +25,61 @@ namespace BackupperService
 
 		protected override void OnStop()
 		{
-            StopCustomService();
+            try
+            {
+                StopCustomService();
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteErrorLogOnly(exp, "79754f38-9694-4f11-92bd-2a1a6b56956e");
+            }
         }
 
 		public void StartCustomService()
 		{
-            // Start OWIN host 
-            HttpService.StartService();
+            try
+            {
+                AppDomain currentDomain = AppDomain.CurrentDomain;
+                currentDomain.UnhandledException += new UnhandledExceptionEventHandler(UnhandledExceptionHandler);
+
+
+                // Load Settings
+                SettingsManager.Instance.LoadSettings();
+
+                // Start OWIN host 
+                HttpService.StartService(Communicator.POSTProc, Communicator.GETProc);
+
+                m_BackupManager.StartScheduler();
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteErrorLogOnly(exp, "7a9ada27-63ac-41bd-8578-6928731e6b8f");
+            }
+
         }
 
-		public void StopCustomService()
+        private void UnhandledExceptionHandler(object sender, UnhandledExceptionEventArgs args)
+        {
+            try
+            {
+                Logger.WriteErrorLogOnly((Exception)args.ExceptionObject, "5b2609a7-8f89-457d-9f5b-a2ecb2695aa2");
+
+                Logger.WriteWarning("An unhandled exception was caught and the service will be stopped.", "7b97e0d4-ceac-4d83-bf36-a41905167617");
+
+                this.Stop();
+
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteErrorLogOnly(exp, "be0815cf-8051-49cd-9df9-626c1a44f64e");
+            }
+        }
+
+        public void StopCustomService()
 		{
             HttpService.Stop();
 
+            m_BackupManager.StopScheduler();
         }
 	}
 }

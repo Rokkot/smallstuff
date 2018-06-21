@@ -21,6 +21,14 @@ namespace HTTPCommLib
         public int Vesion { get { return 1; }}
     }
 
+    public class ResponseMessage
+    {
+        public DateTime TimeStamp { get; set; }
+        public HttpStatusCode State { get; set; }
+        public object ReturnObject { get; set; }
+        public Type ReturnObjectType { get; set; }
+    }
+
     public static class HTTPHelper
     {
         public const string APPLICATION_JSON = "application/json";

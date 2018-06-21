@@ -84,7 +84,7 @@ namespace Utils
 				}
 				catch (Exception exp)
 				{
-					Logger.WriteError(exp, "cc27108e-0987-4cbf-b9de-69001127b72f");
+					Logger.WriteErrorLogOnly(exp, "cc27108e-0987-4cbf-b9de-69001127b72f");
 				}
 			}
 			else
@@ -99,12 +99,12 @@ namespace Utils
 				}
 				catch (Exception exp)
 				{
-					Logger.WriteError(exp, "ed78d049-1bc4-47f9-8f21-8c25376714fe");
+					Logger.WriteErrorLogOnly(exp, "ed78d049-1bc4-47f9-8f21-8c25376714fe");
 				}
 			}
 		}
 
-		public static void ShowProcess()
+        public static void ShowProcess()
 		{
 			try
 			{
@@ -162,7 +162,7 @@ namespace Utils
 			}
 			catch (Exception exp)
 			{
-				Logger.WriteError(exp, "b4d12487-4e99-4ed9-a9f4-38e02de2f41f");
+				Logger.WriteErrorLogOnly(exp, "b4d12487-4e99-4ed9-a9f4-38e02de2f41f");
 				Logger.DisplayError(exp.Message);
 			}
 		}

@@ -32,17 +32,18 @@ namespace HTTPCommLib
 
     public class HttpService
     {
-        public const string BASE_ADDRESS = "http://+:202020/";
+        public const string BASE_ADDRESS = "http://+:20200/";
         private static object oStartStop = null;
 
 
-        public static void StartService()
+        public static void StartService(ProcessPOST _POST, ProcessGet _GET)
         {
             try
             {
                 oStartStop = new object();
 
-                CommandController.DlgtPOST = POSTProc;
+                CommandController.DlgtPOST = _POST;
+                CommandController.DlgGet = _GET;
 
                 Thread worker = new Thread(HttpService.DoWork);
                 worker.Start(oStartStop);
@@ -53,32 +54,30 @@ namespace HTTPCommLib
             }
         }
 
-        public static RequestMessage POSTProc(RequestMessage _Request)
-        {
-            RequestMessage rm = new RequestMessage();
-            List<object> lst = new List<object>();
-            lst.Add("Hello from Service");
-            rm.CommandParams = lst;
+        //public static RequestMessage POSTProc(RequestMessage _Request)
+        //{
+        //    RequestMessage rm = new RequestMessage();
+        //    List<object> lst = new List<object>();
+        //    lst.Add("Hello from Service");
+        //    rm.CommandParams = lst;
 
-            return rm;
-        }
+        //    return rm;
+        //}
 
-        private static void DoWork(object data)
+        private static void DoWork(object oStop)
         {
             try
             {
-                lock (data)
+                lock (oStop)
                 {
                     // Start OWIN host 
                     using (WebApp.Start<Startup>(url: BASE_ADDRESS))
                     {
-
-
                         //// Create HttpCient and make a request to api/values 
                         //HttpClient client = new HttpClient();
                         //var response = client.GetAsync(BASE_ADDRESS + "api/values").Result;
 
-                        Monitor.Wait(data);
+                        Monitor.Wait(oStop);
                     }
                 }
             }

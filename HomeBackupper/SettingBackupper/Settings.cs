@@ -19,13 +19,14 @@ namespace SettingBackupper
     {
         private static string C_KEY_SETTINGS = "Settings";
 
-        private Dictionary<string, FolderInfo> m_dictFolderInfo = new Dictionary<string, FolderInfo>();
+        //private Dictionary<string, FolderInfo> m_dictFolderInfo = new Dictionary<string, FolderInfo>();
 
         public DateTime BackupTime { get; set; }
         public int BackupDays { get; set; }
         public bool WatchFolders { get; set; }
         public string BackupDestinationRootPath { get; set; }
-        public Dictionary<string, FolderInfo> DictFolderInfo { get => m_dictFolderInfo; set => m_dictFolderInfo = value; }
+        public int RunBackupForNHours { get; set; } 
+        //public Dictionary<string, FolderInfo> DictFolderInfo { get => m_dictFolderInfo; set => m_dictFolderInfo = value; }
         public static string GetUnitKey()
         {
             return C_KEY_SETTINGS;
