@@ -57,6 +57,14 @@ namespace Utils
             }
         }
 
+        public void Remove(K _sKey)
+        {
+            if (m_dictData.ContainsKey(_sKey))
+            {
+                m_dictData.Remove(_sKey);
+            }
+        }
+
         public List<K> KeysToList()
         {
             try

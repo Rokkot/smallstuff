@@ -73,6 +73,10 @@ namespace BackupperService
                             {
                                 // Start backup;
                                 StartBackupper();
+
+                                // Stop this thread while the backupper thread is running.
+                                // This thread will be restarted once backupper thread is done.
+                                break;
                             }
                         }
                     }
@@ -89,7 +93,7 @@ namespace BackupperService
             try
             {
                 m_oStartStopBackupper = new object();
-                m_tBackupper = new Thread(SchedulerThread);
+                m_tBackupper = new Thread(BackupperThread);
                 m_tBackupper.IsBackground = true;
                 m_tBackupper.Start(m_oStartStopBackupper);
 
@@ -134,7 +138,7 @@ namespace BackupperService
                             string sFolderToDelete = string.Empty;
 
                             // if backup is running less the hours to run from settings then continue. Otherwise stop backup
-                            if(IsBackupRunningTooLong(dtStartBackupHour) == false)
+                            if (IsBackupRunningTooLong(dtStartBackupHour) == false)
                             {
                                 if (lstFoldrs != null)
                                 {
@@ -142,14 +146,18 @@ namespace BackupperService
                                     {
                                         if (fi.IsDeleted == true)
                                         {
-                                            BackupFilderSearch(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
+                                            m_FI.Remove(fi.FolderSourcePath);
+                                            sFolderToDelete = Path.Combine(sDestinationRoot, Path.GetDirectoryName(fi.FolderSourcePath));
+                                            Directory.Delete(sFolderToDelete, true);
+                                            
                                         }
                                         else
                                         {
-                                            sFolderToDelete = Path.Combine(sDestinationRoot, Path.GetDirectoryName(fi.FolderSourcePath));
-                                            Directory.Delete(sFolderToDelete, true);
+                                            BackupFilderSearch(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
                                         }
                                     }
+
+                                    m_FI.SaveData();
                                 }
                             }
                             else
@@ -164,6 +172,10 @@ namespace BackupperService
             catch (Exception exp)
             {
                 Logger.WriteError(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
+            }
+            finally
+            {
+                StartScheduler();
             }
         }
 

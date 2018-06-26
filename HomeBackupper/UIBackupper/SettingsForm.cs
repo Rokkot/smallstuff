@@ -37,6 +37,8 @@ namespace Backupper
 
                     dateTimePicker_BackupAt.Value = m_Settings.BackupTime;
 
+                    numericUpDown_RunForNHours.Value = m_Settings.RunBackupForNHours;
+
                     textBox_BackupRoot.Text = m_Settings.BackupDestinationRootPath;
 
                     checkBoxWatchFolders.Checked = m_Settings.WatchFolders;
@@ -84,7 +86,10 @@ namespace Backupper
 
                 m_Settings.WatchFolders = checkBoxWatchFolders.Checked;
 
+                m_Settings.RunBackupForNHours = (int)numericUpDown_RunForNHours.Value;
+
                 m_dictSettings.Add(Settings.GetUnitKey(), m_Settings);
+
 
                 m_dictSettings.SaveData();
 
