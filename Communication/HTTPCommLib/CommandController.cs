@@ -30,11 +30,9 @@ namespace HTTPCommLib
         {
             try
             {
-                ResponseMessage rm = new ResponseMessage();
-
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Get request
-                rm = DlgGet?.Invoke();
+                ResponseMessage rm = DlgGet?.Invoke();
 
                 return HTTPHelper.GetHttpResponseMessage(rm);
             }

@@ -23,6 +23,15 @@ namespace HTTPCommLib
 
     public class ResponseMessage
     {
+
+        public ResponseMessage(HttpStatusCode _httpSstate, object _oReturnObject)
+        {
+            TimeStamp = DateTime.Now;
+            State = _httpSstate;
+            ReturnObject = _oReturnObject;
+            ReturnObjectType = (_oReturnObject != null) ? _oReturnObject.GetType() : null;
+        }
+
         public DateTime TimeStamp { get; set; }
         public HttpStatusCode State { get; set; }
         public object ReturnObject { get; set; }
