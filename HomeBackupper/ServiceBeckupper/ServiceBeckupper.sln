@@ -11,6 +11,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HTTPCommLib", "..\..\Commun
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SettingBackupper", "..\SettingBackupper\SettingBackupper.csproj", "{4C55A6E5-C8FB-484E-AD0F-7C57F05C1010}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LocalBackup", "..\LocalBackup\LocalBackup.csproj", "{19FB3497-B861-4F1A-A6C5-F9E203F76367}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ibkplib", "..\ibkplib\ibkplib.csproj", "{DD96DB3D-2FDB-417F-8C5F-A672DED28FDB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +37,14 @@ Global
 		{4C55A6E5-C8FB-484E-AD0F-7C57F05C1010}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C55A6E5-C8FB-484E-AD0F-7C57F05C1010}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C55A6E5-C8FB-484E-AD0F-7C57F05C1010}.Release|Any CPU.Build.0 = Release|Any CPU
+		{19FB3497-B861-4F1A-A6C5-F9E203F76367}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{19FB3497-B861-4F1A-A6C5-F9E203F76367}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{19FB3497-B861-4F1A-A6C5-F9E203F76367}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{19FB3497-B861-4F1A-A6C5-F9E203F76367}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DD96DB3D-2FDB-417F-8C5F-A672DED28FDB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DD96DB3D-2FDB-417F-8C5F-A672DED28FDB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DD96DB3D-2FDB-417F-8C5F-A672DED28FDB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DD96DB3D-2FDB-417F-8C5F-A672DED28FDB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

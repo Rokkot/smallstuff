@@ -127,6 +127,10 @@ namespace BackupperService
                         lstFoldrs = m_FI.ValuesToList();
                     }
 
+                    // Make sure the Schedule thread is stopped
+                    // It will be restarted once backupper thread is done.
+                    StopSchedulerThread();
+
                     while (true)
                     {
                         if (Monitor.Wait(oStop, m_tsBackupperInterval) == true)
@@ -153,7 +157,7 @@ namespace BackupperService
                                         }
                                         else
                                         {
-                                            BackupFilderSearch(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
+                                            BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
                                         }
                                     }
 
@@ -196,7 +200,7 @@ namespace BackupperService
 
             return true;
         }
-        void BackupFilderSearch(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour)
+        void BackupFolder(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour)
         {
             try
             {
@@ -229,7 +233,7 @@ namespace BackupperService
                         File.Copy(f, sDestFile, true);
                     }
 
-                    BackupFilderSearch(d, _sStartDirDestination, _dtStartBackupHour);
+                    BackupFolder(d, _sStartDirDestination, _dtStartBackupHour);
                 }
             }
             catch (Exception exp)

@@ -8,6 +8,7 @@ namespace BackupperService
     public enum Commands
     {
         ReloadSettings = 10,
+        StartBackupNow = 20,
     }
 
     public class Communicator
@@ -34,6 +35,11 @@ namespace BackupperService
                                 SettingsManager.Instance.LoadSettings(true);
 
                             }
+                            break;
+                        }
+                    case (int)Commands.StartBackupNow:
+                        {
+                            // not implemented
                             break;
                         }
                     default:
