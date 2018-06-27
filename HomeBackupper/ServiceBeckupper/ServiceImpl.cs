@@ -49,7 +49,7 @@ namespace BackupperService
                 // Start OWIN host 
                 HttpService.StartService(Communicator.POSTProc, Communicator.GETProc);
 
-                m_BackupManager.StartScheduler();
+                m_BackupManager.StartSchedulerThread();
             }
             catch (Exception exp)
             {
@@ -79,8 +79,8 @@ namespace BackupperService
 		{
             HttpService.Stop();
 
+            m_BackupManager.StopBackupManagerThread();
             m_BackupManager.StopSchedulerThread();
-            m_BackupManager.StopBackupperThread();
         }
 	}
 }

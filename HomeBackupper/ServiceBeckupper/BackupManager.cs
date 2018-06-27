@@ -1,4 +1,5 @@
-﻿using SettingBackupper;
+﻿using LocalBackup;
+using SettingBackupper;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -12,24 +13,25 @@ namespace BackupperService
 {
     public class BackupManager
     {
-        private SerializableDictionary<string, FolderInfo> m_FI = null;
         private TimeSpan m_tsSchedulerInterval = TimeSpan.Zero;
-        private TimeSpan m_tsBackupperInterval = TimeSpan.Zero;
-        private Thread m_tScheduler = null;
+        private TimeSpan m_tsBackupManagerInterval = TimeSpan.Zero;
+        private Thread m_tSchedulerThread = null;
         private object m_oStartStopScheduler = null;
-        private object m_oStartStopBackupper = null;
-        private double m_dHoursToRun = -1.0;
+        private object m_oStartStopBackupManager = null;
 
-        private Thread m_tBackupper = null;
+        private Thread m_tBackupManagerThread = null;
+
+        private Backup<Local> m_LocalBackup = null;
 
         public BackupManager()
         {
             try
             {
-                m_FI = new SerializableDictionary<string, FolderInfo>();
                 //m_tsSchedulerInterval = TimeSpan.FromMinutes(1); // every 1 min
                 m_tsSchedulerInterval = TimeSpan.FromSeconds(10); // every 5 min
-                m_tsBackupperInterval = TimeSpan.FromSeconds(5); // 5 seconds
+                m_tsBackupManagerInterval = TimeSpan.FromSeconds(5); // 5 seconds
+
+                m_LocalBackup = new Backup<Local>();
             }
             catch (Exception exp)
             {
@@ -37,14 +39,22 @@ namespace BackupperService
             }
         }
 
-        public bool StartScheduler()
+        public bool StartSchedulerThread()
         {
             try
             {
-                m_oStartStopScheduler = new object();
-                m_tScheduler = new Thread(SchedulerThread);
-                m_tScheduler.IsBackground = true;
-                m_tScheduler.Start(m_oStartStopScheduler);
+                if (m_oStartStopScheduler == null)
+                {
+                    m_oStartStopScheduler = new object();
+                }
+
+                if (m_tSchedulerThread == null)
+                {
+                    m_tSchedulerThread = new Thread(SchedulerThread);
+                }
+
+                m_tSchedulerThread.IsBackground = true;
+                m_tSchedulerThread.Start(m_oStartStopScheduler);
 
                 return true;
             }
@@ -54,6 +64,7 @@ namespace BackupperService
                 return false;
             }
         }
+
         public void SchedulerThread(object oStop)
         {
             try
@@ -69,10 +80,10 @@ namespace BackupperService
                         else
                         {
                             // checked time and start backup process if needed.
-                            if ((IsBackupDay() == true) && (IsBackupTime() == true))
+                            if ((SettingsManager.Instance.IsBackupDay() == true) && (SettingsManager.Instance.IsBackupTime() == true))
                             {
                                 // Start backup;
-                                StartBackupper();
+                                StartBackupManagerThread();
 
                                 // Stop this thread while the backupper thread is running.
                                 // This thread will be restarted once backupper thread is done.
@@ -85,235 +96,6 @@ namespace BackupperService
             catch (Exception exp)
             {
                 Logger.WriteError(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
-            }
-        }
-
-        private bool StartBackupper()
-        {
-            try
-            {
-                m_oStartStopBackupper = new object();
-                m_tBackupper = new Thread(BackupperThread);
-                m_tBackupper.IsBackground = true;
-                m_tBackupper.Start(m_oStartStopBackupper);
-
-                return true;
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "729d5f1f-e7ca-42a4-bda0-7713880f1403");
-                return false;
-            }
-        }
-        public void BackupperThread(object oStop)
-        {
-            try
-            {
-                lock (oStop)
-                {
-                    DateTime dtStartBackupHour = DateTime.Now;
-                    List<FolderInfo> lstFoldrs = null;
-                    string sDestinationRoot = string.Empty;
-
-                    lock (SettingsManager.Instance)
-                    {
-                        m_dHoursToRun = (double)SettingsManager.Instance.Settings.RunBackupForNHours;
-                        sDestinationRoot = SettingsManager.Instance.Settings.BackupDestinationRootPath;
-                    }
-
-                    lock (m_FI)
-                    {
-                        m_FI.LoadData();
-                        lstFoldrs = m_FI.ValuesToList();
-                    }
-
-                    // Make sure the Schedule thread is stopped
-                    // It will be restarted once backupper thread is done.
-                    StopSchedulerThread();
-
-                    while (true)
-                    {
-                        if (Monitor.Wait(oStop, m_tsBackupperInterval) == true)
-                        {
-                            break;
-                        }
-                        else
-                        {
-                            string sFolderToDelete = string.Empty;
-
-                            // if backup is running less the hours to run from settings then continue. Otherwise stop backup
-                            if (IsBackupRunningTooLong(dtStartBackupHour) == false)
-                            {
-                                if (lstFoldrs != null)
-                                {
-                                    foreach (FolderInfo fi in lstFoldrs)
-                                    {
-                                        if (fi.IsDeleted == true)
-                                        {
-                                            m_FI.Remove(fi.FolderSourcePath);
-                                            sFolderToDelete = Path.Combine(sDestinationRoot, Path.GetDirectoryName(fi.FolderSourcePath));
-                                            Directory.Delete(sFolderToDelete, true);
-                                            
-                                        }
-                                        else
-                                        {
-                                            BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour);
-                                        }
-                                    }
-
-                                    m_FI.SaveData();
-                                }
-                            }
-                            else
-                            {
-                                // the backup was running longer than defined by a user in the serrings
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
-            }
-            finally
-            {
-                StartScheduler();
-            }
-        }
-
-        private bool IsBackupRunningTooLong(DateTime _dtStartBackupHour)
-        {
-            try
-            {
-                // calculate number of hours the buckup is already running
-                double dRunningHours = DateTime.Now.TimeOfDay.Subtract(_dtStartBackupHour.TimeOfDay).TotalHours;
-
-                // if backup is running less the hours to run from settings then continue. Otherwise stop backup
-                return (dRunningHours < m_dHoursToRun) ? false : true;
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "45c3a960-c3ef-45a4-b0b4-96acba6f6d53");
-            }
-
-            return true;
-        }
-        void BackupFolder(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour)
-        {
-            try
-            {
-                string sFileName = string.Empty;
-                string sDestFile = string.Empty;
-
-                // let processor to breathe
-                Thread.Sleep(100);
-
-                if (IsBackupRunningTooLong(_dtStartBackupHour) == true)
-                {
-                    // stop backup
-                    return;
-                }
-
-                _sStartDirDestination = Path.Combine(_sStartDirDestination, Path.GetDirectoryName(_sStartDirSource));
-
-                if (Directory.Exists(_sStartDirDestination) == false)
-                {
-                    Directory.CreateDirectory(_sStartDirDestination);
-                }
-
-                foreach (string d in Directory.GetDirectories(_sStartDirSource))
-                {
-                    foreach (string f in Directory.GetFiles(d))
-                    {
-                        // copy all files in the folder
-                        sFileName = Path.GetFileName(f);
-                        sDestFile = Path.Combine(_sStartDirDestination, sFileName);
-                        File.Copy(f, sDestFile, true);
-                    }
-
-                    BackupFolder(d, _sStartDirDestination, _dtStartBackupHour);
-                }
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "d9cddfe7-f013-4712-990a-1d9fc524d3e1");
-            }
-        }
-
-        private bool IsBackupTime()
-        {
-            try
-            {
-                lock (SettingsManager.Instance)
-                {
-                    DateTime settingTime = SettingsManager.Instance.Settings.BackupTime;
-                    TimeSpan timeDiff = DateTime.Now.TimeOfDay.Subtract(settingTime.TimeOfDay);
-
-                    if ((timeDiff.TotalMinutes > 0)
-                        && (timeDiff.TotalMinutes <= 3))
-                    {
-                        return true;
-                    }
-                }
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "07cc3ee8-2b2e-4c91-8426-e2742ad76ea4");
-            }
-
-            return false;
-        }
-
-        private bool IsBackupDay()
-        {
-            try
-            {
-                bool bIsBackupDay = false;
-
-                lock (SettingsManager.Instance)
-                {
-                    int iDaysOfWeek = SettingsManager.Instance.Settings.BackupDays;
-                
-                    if ((iDaysOfWeek & (int)enumWeekdays.All) == (int)enumWeekdays.All)
-                        return true;
-
-                    switch (DateTime.Now.DayOfWeek)
-                    {
-                        case DayOfWeek.Sunday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Sunday) == (int)enumWeekdays.Sunday);
-                            break;
-                        case DayOfWeek.Monday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Monday) == (int)enumWeekdays.Monday);
-                            break;
-                        case DayOfWeek.Tuesday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Tuesday) == (int)enumWeekdays.Tuesday);
-                            break;
-                        case DayOfWeek.Wednesday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Wednesday) == (int)enumWeekdays.Wednesday);
-                            break;
-                        case DayOfWeek.Thursday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Thursday) == (int)enumWeekdays.Thursday);
-                            break;
-                        case DayOfWeek.Friday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Friday) == (int)enumWeekdays.Friday);
-                            break;
-                        case DayOfWeek.Saturday:
-                            bIsBackupDay = ((iDaysOfWeek & (int)enumWeekdays.Saturday) == (int)enumWeekdays.Saturday);
-                            break;
-                        default:
-                            bIsBackupDay = false;
-                            break;
-                    }
-                }
-
-                return bIsBackupDay;
-            }
-            catch (Exception exp)
-            {
-                Logger.WriteError(exp, "b8d6fb61-5764-4d87-9495-781ec9b2b212");
-                return false;
             }
         }
 
@@ -336,16 +118,92 @@ namespace BackupperService
             }
         }
 
-        public void StopBackupperThread()
+        public bool StartBackupManagerThread()
         {
             try
             {
-                if (m_oStartStopBackupper != null)
+                if (m_oStartStopBackupManager == null)
                 {
-                    lock (m_oStartStopBackupper)
+                    m_oStartStopBackupManager = new object();
+                }
+
+                if (m_tBackupManagerThread == null)
+                {
+                    m_tBackupManagerThread = new Thread(BackupManagerThread);
+                }
+
+                m_tBackupManagerThread.IsBackground = true;
+                m_tBackupManagerThread.Start(m_oStartStopBackupManager);
+
+                return true;
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "6f7956fd-c063-4f0e-998b-4448d924e453");
+                return false;
+            }
+        }
+
+        public void BackupManagerThread(object oStop)
+        {
+            try
+            {
+                lock (oStop)
+                {
+                    DateTime dtStartBackupHour = DateTime.Now;
+
+                    StopSchedulerThread();
+                    Thread.Sleep(3000);
+                    m_LocalBackup.StartThread();
+
+                    while (true)
                     {
-                        m_dHoursToRun = 0.0001;
-                        Monitor.Pulse(m_oStartStopBackupper);
+                        if (Monitor.Wait(oStop, m_tsBackupManagerInterval) == true)
+                        {
+                            // stop Backup thread
+                            m_LocalBackup.StopThread();
+                            break;
+                        }
+                        else
+                        {
+                            if (m_LocalBackup.IsBackupRunning == false)
+                            {
+                                m_LocalBackup.StopThread();
+                                Thread.Sleep(3000);
+                                StartSchedulerThread();
+                            }
+
+                            // checked time and start backup process if needed.
+                            if (SettingsManager.Instance.IsBackupRunningTooLong(dtStartBackupHour) == true)
+                            {
+                                // Stop backup;
+                                m_LocalBackup.StopThread();
+                                Thread.Sleep(3000);
+                                StartSchedulerThread();
+
+                                // Stop this thread while the backupper thread is running.
+                                // This thread will be restarted once backupper thread is done.
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            catch (Exception exp)
+            {
+                Logger.WriteError(exp, "7cedc726-e23e-4d23-8003-b7c7abaa6529");
+            }
+        }
+        
+        public void StopBackupManagerThread()
+        {
+            try
+            {
+                if (m_oStartStopBackupManager != null)
+                {
+                    lock (m_oStartStopBackupManager)
+                    {
+                        Monitor.Pulse(m_oStartStopBackupManager);
                     }
                 }
             }

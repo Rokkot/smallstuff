@@ -56,6 +56,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BackupManager.cs" />
+    <Compile Include="BackupThread.cs" />
     <Compile Include="SettingsManager.cs" />
     <Compile Include="Communicator.cs" />
     <Compile Include="Program.cs" />
@@ -86,6 +87,14 @@
     <ProjectReference Include="..\..\Utils\Utils.csproj">
       <Project>{a8daa5ca-4538-4d4b-87b2-cc65fc6291d5}</Project>
       <Name>Utils</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ibkplib\ibkplib.csproj">
+      <Project>{dd96db3d-2fdb-417f-8c5f-a672ded28fdb}</Project>
+      <Name>ibkplib</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LocalBackup\LocalBackup.csproj">
+      <Project>{19fb3497-b861-4f1a-a6c5-f9e203f76367}</Project>
+      <Name>LocalBackup</Name>
     </ProjectReference>
     <ProjectReference Include="..\SettingBackupper\SettingBackupper.csproj">
       <Project>{4c55a6e5-c8fb-484e-ad0f-7c57f05c1010}</Project>

@@ -6,7 +6,7 @@ using Utils;
 
 namespace LocalBackup
 {
-    public class LocalBackup : IBackup
+    public class Local : IBackup
     {
         public void BackupFolder(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour, object _oStopObject)
         {
@@ -23,14 +23,6 @@ namespace LocalBackup
                 }
                 else
                 {
-                    //    Thread.Sleep(100);
-
-                    //if (IsBackupRunningTooLong(_dtStartBackupHour) == true)
-                    //{
-                    //    // stop backup
-                    //    return;
-                    //}
-
                     _sStartDirDestination = Path.Combine(_sStartDirDestination, Path.GetDirectoryName(_sStartDirSource));
 
                     if (Directory.Exists(_sStartDirDestination) == false)
