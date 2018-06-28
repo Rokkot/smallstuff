@@ -15,32 +15,35 @@ namespace LocalBackup
                 string sFileName = string.Empty;
                 string sDestFile = string.Empty;
 
-                // let processor to breathe
-                // and wait for stop process.
-                if (Monitor.Wait(_oStopObject, 100) == true)
+                lock (_oStopObject)
                 {
-                    return;
-                }
-                else
-                {
-                    _sStartDirDestination = Path.Combine(_sStartDirDestination, Path.GetDirectoryName(_sStartDirSource));
-
-                    if (Directory.Exists(_sStartDirDestination) == false)
+                    // let processor to breathe
+                    // and wait for stop process.
+                    if (Monitor.Wait(_oStopObject, 100) == true)
                     {
-                        Directory.CreateDirectory(_sStartDirDestination);
+                        return;
                     }
-
-                    foreach (string d in Directory.GetDirectories(_sStartDirSource))
+                    else
                     {
-                        foreach (string f in Directory.GetFiles(d))
+                        _sStartDirDestination = Path.Combine(_sStartDirDestination, Path.GetDirectoryName(_sStartDirSource));
+
+                        if (Directory.Exists(_sStartDirDestination) == false)
                         {
-                            // copy all files in the folder
-                            sFileName = Path.GetFileName(f);
-                            sDestFile = Path.Combine(_sStartDirDestination, sFileName);
-                            File.Copy(f, sDestFile, true);
+                            Directory.CreateDirectory(_sStartDirDestination);
                         }
 
-                        BackupFolder(d, _sStartDirDestination, _dtStartBackupHour, _oStopObject);
+                        foreach (string d in Directory.GetDirectories(_sStartDirSource))
+                        {
+                            foreach (string f in Directory.GetFiles(d))
+                            {
+                                // copy all files in the folder
+                                sFileName = Path.GetFileName(f);
+                                sDestFile = Path.Combine(_sStartDirDestination, sFileName);
+                                File.Copy(f, sDestFile, true);
+                            }
+
+                            BackupFolder(d, _sStartDirDestination, _dtStartBackupHour, _oStopObject);
+                        }
                     }
                 }
             }

@@ -23,6 +23,8 @@ namespace BackupperService
 
         private Backup<Local> m_LocalBackup = null;
 
+        private static ManualResetEvent m_meScheduler = null;
+
         public BackupManager()
         {
             try
@@ -30,6 +32,8 @@ namespace BackupperService
                 //m_tsSchedulerInterval = TimeSpan.FromMinutes(1); // every 1 min
                 m_tsSchedulerInterval = TimeSpan.FromSeconds(10); // every 5 min
                 m_tsBackupManagerInterval = TimeSpan.FromSeconds(5); // 5 seconds
+
+                m_meScheduler = new ManualResetEvent(true);
 
                 m_LocalBackup = new Backup<Local>();
             }
@@ -79,6 +83,15 @@ namespace BackupperService
                         }
                         else
                         {
+                            if (m_meScheduler.WaitOne(m_tsSchedulerInterval) == false)
+                            {
+                                continue;
+                            }
+                            else
+                            {
+                                Thread.Sleep(100);
+                            }
+
                             // checked time and start backup process if needed.
                             if ((SettingsManager.Instance.IsBackupDay() == true) && (SettingsManager.Instance.IsBackupTime() == true))
                             {
@@ -87,7 +100,7 @@ namespace BackupperService
 
                                 // Stop this thread while the backupper thread is running.
                                 // This thread will be restarted once backupper thread is done.
-                                break;
+                                //break;
                             }
                         }
                     }
@@ -158,7 +171,10 @@ namespace BackupperService
                 {
                     DateTime dtStartBackupHour = DateTime.Now;
 
-                    StopSchedulerThread();
+                    //StopSchedulerThread();
+
+                    m_meScheduler.Reset();
+
                     Thread.Sleep(3000);
                     m_LocalBackup.StartThread();
 
@@ -186,7 +202,8 @@ namespace BackupperService
                                 // Stop backup;
                                 m_LocalBackup.StopThread();
                                 Thread.Sleep(3000);
-                                StartSchedulerThread();
+                                //StartSchedulerThread();
+                                m_meScheduler.Set();
 
                                 // Stop this thread while the backupper thread is running.
                                 // This thread will be restarted once backupper thread is done.

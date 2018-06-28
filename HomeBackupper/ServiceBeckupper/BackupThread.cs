@@ -16,7 +16,7 @@ namespace BackupperService
 
         private Thread m_tBackupper = null;
 
-        private bool m_bIsBackupComplete = true;
+        private bool m_bIsBackupRunning = false;
 
         public Backup()
         {
@@ -26,14 +26,14 @@ namespace BackupperService
 
         public bool IsBackupRunning
         {
-            get { return m_bIsBackupComplete; }
+            get { return m_bIsBackupRunning; }
         }
 
         public void StartThread()
         {
             try
             {
-                if (m_bIsBackupComplete == true)
+                if (m_bIsBackupRunning == false)
                 {
                     if (m_oStartStopBackup == null)
                     {
@@ -47,7 +47,7 @@ namespace BackupperService
 
                     m_tBackupper.IsBackground = true;
                     m_tBackupper.Start(m_oStartStopBackup);
-                    m_bIsBackupComplete = false;
+                    m_bIsBackupRunning = true;
                 }
             }
             catch (Exception exp)
@@ -102,13 +102,15 @@ namespace BackupperService
                                                 m_FI.Remove(fi.FolderSourcePath);
                                             }
 
-                                            sFolderToDelete = Path.Combine(sDestinationRoot, Path.GetDirectoryName(fi.FolderSourcePath));
-                                            Directory.Delete(sFolderToDelete, true);
+                                            string[] sFolders = fi.FolderSourcePath.Split(Path.DirectorySeparatorChar);
+
+                                            sFolderToDelete = Path.Combine(sDestinationRoot, sFolders[sFolders.Length - 1]);
+                                            //Directory.Delete(sFolderToDelete, true);
 
                                         }
                                         else
                                         {
-                                            inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, m_tsBackupperInterval);
+                                            inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, );
                                         }
                                     }
 
@@ -133,7 +135,7 @@ namespace BackupperService
             }
             finally
             {
-                m_bIsBackupComplete = false;
+                m_bIsBackupRunning = false;
             }
         }
 
@@ -146,6 +148,13 @@ namespace BackupperService
                     lock (m_oStartStopBackup)
                     {
                         Monitor.Pulse(m_oStartStopBackup);
+                    }
+
+                    Thread.Sleep(1000);
+
+                    if ((m_tBackupper != null) && (m_tBackupper.ThreadState == ThreadState.Stopped))
+                    {
+                        m_tBackupper = null;
                     }
                 }
             }
