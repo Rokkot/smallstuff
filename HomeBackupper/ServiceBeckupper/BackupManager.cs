@@ -107,8 +107,14 @@ namespace BackupperService
                 {
                     lock (m_oStartStopScheduler)
                     {
-
                         Monitor.Pulse(m_oStartStopScheduler);
+                    }
+
+                    Thread.Sleep(1000);
+
+                    if ((m_tSchedulerThread != null) && (m_tSchedulerThread.ThreadState == ThreadState.Stopped))
+                    {
+                        m_tSchedulerThread = null;
                     }
                 }
             }
@@ -171,6 +177,7 @@ namespace BackupperService
                                 m_LocalBackup.StopThread();
                                 Thread.Sleep(3000);
                                 StartSchedulerThread();
+                                break;
                             }
 
                             // checked time and start backup process if needed.
@@ -204,6 +211,13 @@ namespace BackupperService
                     lock (m_oStartStopBackupManager)
                     {
                         Monitor.Pulse(m_oStartStopBackupManager);
+                    }
+
+                    Thread.Sleep(1000);
+
+                    if ((m_tBackupManagerThread != null) && (m_tBackupManagerThread.ThreadState == ThreadState.Stopped))
+                    {
+                        m_tBackupManagerThread = null;
                     }
                 }
             }

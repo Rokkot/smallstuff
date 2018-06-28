@@ -50,10 +50,10 @@ namespace BackupperService
                 // if backup is running less the hours to run from settings then continue. Otherwise stop backup
                 if((dRunningHours < m_Settings.RunBackupForNHours) || (m_Settings.RunBackupForNHours == 0))
                 {
-                    return true;
+                    return false;
                 }
 
-                return false;
+                return true;
             }
             catch (Exception exp)
             {

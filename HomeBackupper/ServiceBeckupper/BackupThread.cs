@@ -12,7 +12,7 @@ namespace BackupperService
     {
         private SerializableDictionary<string, FolderInfo> m_FI = null;
         private TimeSpan m_tsBackupperInterval = TimeSpan.Zero;
-        private object m_oStartStopBackupper = null;
+        private object m_oStartStopBackup = null;
 
         private Thread m_tBackupper = null;
 
@@ -35,18 +35,18 @@ namespace BackupperService
             {
                 if (m_bIsBackupComplete == true)
                 {
-                    if (m_oStartStopBackupper != null)
+                    if (m_oStartStopBackup == null)
                     {
-                        m_oStartStopBackupper = new object();
+                        m_oStartStopBackup = new object();
                     }
 
-                    if (m_tBackupper != null)
+                    if (m_tBackupper == null)
                     {
                         m_tBackupper = new Thread(BackupThread);
                     }
 
                     m_tBackupper.IsBackground = true;
-                    m_tBackupper.Start(m_oStartStopBackupper);
+                    m_tBackupper.Start(m_oStartStopBackup);
                     m_bIsBackupComplete = false;
                 }
             }
@@ -141,11 +141,11 @@ namespace BackupperService
         {
             try
             {
-                if (m_oStartStopBackupper != null)
+                if (m_oStartStopBackup != null)
                 {
-                    lock (m_oStartStopBackupper)
+                    lock (m_oStartStopBackup)
                     {
-                        Monitor.Pulse(m_oStartStopBackupper);
+                        Monitor.Pulse(m_oStartStopBackup);
                     }
                 }
             }
