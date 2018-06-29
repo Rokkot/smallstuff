@@ -18,10 +18,13 @@ namespace BackupperService
 
         private bool m_bIsBackupRunning = false;
 
+        private static ManualResetEvent m_meBackupFunction = null;
+
         public Backup()
         {
             m_FI = new SerializableDictionary<string, FolderInfo>();
             m_tsBackupperInterval = TimeSpan.FromSeconds(5);
+            m_meBackupFunction = new ManualResetEvent(false);
         }
 
         public bool IsBackupRunning
@@ -45,6 +48,7 @@ namespace BackupperService
                         m_tBackupper = new Thread(BackupThread);
                     }
 
+                    m_tBackupper.Name = "Backup";
                     m_tBackupper.IsBackground = true;
                     m_tBackupper.Start(m_oStartStopBackup);
                     m_bIsBackupRunning = true;
@@ -64,6 +68,9 @@ namespace BackupperService
                     DateTime dtStartBackupHour = DateTime.Now;
                     List<FolderInfo> lstFoldrs = null;
                     string sDestinationRoot = string.Empty;
+                    DirectoryInfo di = null;
+                    string sFolderName = string.Empty;
+
 
                     IBackup inBackup = (IBackup)Activator.CreateInstance(typeof(T));
 
@@ -82,6 +89,8 @@ namespace BackupperService
                     {
                         if (Monitor.Wait(oStop, m_tsBackupperInterval) == true)
                         {
+                            m_meBackupFunction.Set();
+
                             break;
                         }
                         else
@@ -102,15 +111,22 @@ namespace BackupperService
                                                 m_FI.Remove(fi.FolderSourcePath);
                                             }
 
-                                            string[] sFolders = fi.FolderSourcePath.Split(Path.DirectorySeparatorChar);
+                                            di = new DirectoryInfo(fi.FolderSourcePath);
 
-                                            sFolderToDelete = Path.Combine(sDestinationRoot, sFolders[sFolders.Length - 1]);
-                                            //Directory.Delete(sFolderToDelete, true);
+                                            // if fi.FolderSourcePath = "C:\\" replace the folder name with empty string. 
+                                            // Otherwise Path.Combine(sDestinationRoot, "C:\\") will return "C:\\"
+                                            sFolderName = (di.Root.FullName != di.Name) ? di.Name : string.Empty;
+                                            
+                                            sFolderToDelete = Path.Combine(sDestinationRoot, sFolderName);
 
+                                            if (Directory.Exists(sFolderToDelete) == true)
+                                            {
+                                                Directory.Delete(sFolderToDelete, true);
+                                            }
                                         }
                                         else
                                         {
-                                            inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, );
+                                            inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, m_meBackupFunction);
                                         }
                                     }
 
@@ -131,7 +147,7 @@ namespace BackupperService
             }
             catch (Exception exp)
             {
-                Logger.WriteError(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
+                Logger.WriteErrorLogOnly(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
             }
             finally
             {

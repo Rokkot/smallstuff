@@ -57,6 +57,7 @@ namespace BackupperService
                     m_tSchedulerThread = new Thread(SchedulerThread);
                 }
 
+                m_tSchedulerThread.Name = "Scheduler";
                 m_tSchedulerThread.IsBackground = true;
                 m_tSchedulerThread.Start(m_oStartStopScheduler);
 
@@ -151,6 +152,7 @@ namespace BackupperService
                     m_tBackupManagerThread = new Thread(BackupManagerThread);
                 }
 
+                m_tBackupManagerThread.Name = "BackupManager";
                 m_tBackupManagerThread.IsBackground = true;
                 m_tBackupManagerThread.Start(m_oStartStopBackupManager);
 
@@ -192,7 +194,7 @@ namespace BackupperService
                             {
                                 m_LocalBackup.StopThread();
                                 Thread.Sleep(3000);
-                                StartSchedulerThread();
+                                m_meScheduler.Set();
                                 break;
                             }
 
@@ -215,7 +217,7 @@ namespace BackupperService
             }
             catch (Exception exp)
             {
-                Logger.WriteError(exp, "7cedc726-e23e-4d23-8003-b7c7abaa6529");
+                Logger.WriteErrorLogOnly(exp, "7cedc726-e23e-4d23-8003-b7c7abaa6529");
             }
         }
         
