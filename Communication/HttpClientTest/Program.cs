@@ -18,7 +18,7 @@ namespace HttpClientTest
             rm.CommandID = 10;
             rm.CommandParams = new List<object>(new object[] { "Some test data" });
 
-            string sResponse = Post("http://localhost:8080/Command", rm, "application/octet-stream");
+            string sResponse = Post("http://localhost:20200/Command", rm, "application/octet-stream");
 
             Console.WriteLine(sResponse);
             Console.WriteLine("Press any key to stop...");

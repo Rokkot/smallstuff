@@ -28,7 +28,7 @@ namespace Service
 		public void StartCustomService()
 		{
             // Start OWIN host 
-            HttpService.StartService();
+            HttpService.StartService(ProcessPOST, ProcessGet);
         }
 
 		public void StopCustomService()
@@ -36,5 +36,14 @@ namespace Service
             HttpService.Stop();
 
         }
-	}
+
+        public ResponseMessage ProcessPOST(RequestMessage request)
+        {
+            return new ResponseMessage(System.Net.HttpStatusCode.OK, "hello post");
+        }
+        public ResponseMessage ProcessGet()
+        {
+            return new ResponseMessage(System.Net.HttpStatusCode.OK, "hello get");
+        }
+    }
 }

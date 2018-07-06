@@ -51,6 +51,8 @@ namespace HTTPCommLib
             {
                 string sIn = await Request.Content.ReadAsStringAsync();
 
+                string s = this.Request.GetClientIpAddress();
+
                 // SKislyuk 5/4/2018 2:19:32 PM
                 // Process Post request
                 ResponseMessage rm = DlgtPOST?.Invoke((RequestMessage)HTTPHelper.GetObjectFromJsonString(sIn));
@@ -67,6 +69,47 @@ namespace HTTPCommLib
                 return HTTPHelper.GetHttpErrorMessage(exp.Message, "7f357739-b349-4a2d-b3ea-41ba845c9b46");
             }
 
+        }
+    }
+
+    public static class HttpRequestMessageExtensions
+    {
+        private const string HttpContext = "MS_HttpContext";
+        private const string OwinContext = "MS_OwinContext";
+        private const string RemoteEndpointMessage = "System.ServiceModel.Channels.RemoteEndpointMessageProperty";
+
+        public static string GetClientIpAddress(this HttpRequestMessage request)
+        {
+            // MS_HttpContext
+            if (request.Properties.ContainsKey(HttpContext))
+            {
+                dynamic ctx = request.Properties[HttpContext];
+                if (ctx != null)
+                {
+                    return ctx.Request.UserHostAddress;
+                }
+            }
+
+            // MS_OwinContext
+            if (request.Properties.ContainsKey(OwinContext))
+            {
+                dynamic ctx = request.Properties[OwinContext];
+                if (ctx != null)
+                {
+                    return ctx.Request.RemoteIpAddress;
+                }
+            }
+
+            if (request.Properties.ContainsKey(RemoteEndpointMessage))
+            {
+                dynamic remoteEndpoint = request.Properties[RemoteEndpointMessage];
+                if (remoteEndpoint != null)
+                {
+                    return remoteEndpoint.Address;
+                }
+            }
+
+            return string.Empty;
         }
     }
 }

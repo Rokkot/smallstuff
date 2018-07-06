@@ -35,7 +35,6 @@ namespace HTTPCommLib
         public const string BASE_ADDRESS = "http://+:20200/";
         private static object oStartStop = null;
 
-
         public static void StartService(ProcessPOST _POST, ProcessGet _GET)
         {
             try
@@ -103,6 +102,6 @@ namespace HTTPCommLib
             {
                 Logger.WriteError(exp, "3fe69b77-4fa1-49c8-af7b-fc8b511a0047");
             }
-        }
+        }  
     }
 }

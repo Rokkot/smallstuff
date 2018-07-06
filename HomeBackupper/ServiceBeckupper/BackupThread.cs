@@ -48,6 +48,7 @@ namespace BackupperService
                         m_tBackupper = new Thread(BackupThread);
                     }
 
+                    m_meBackupFunction.Reset();
                     m_tBackupper.Name = "Backup";
                     m_tBackupper.IsBackground = true;
                     m_tBackupper.Start(m_oStartStopBackup);
@@ -161,6 +162,9 @@ namespace BackupperService
             {
                 if (m_oStartStopBackup != null)
                 {
+                    m_meBackupFunction.Set();
+                    Thread.Sleep(100);
+
                     lock (m_oStartStopBackup)
                     {
                         Monitor.Pulse(m_oStartStopBackup);

@@ -50,15 +50,11 @@ namespace BackupperService
                 if (m_oStartStopScheduler == null)
                 {
                     m_oStartStopScheduler = new object();
-                }
-
-                if (m_tSchedulerThread == null)
-                {
                     m_tSchedulerThread = new Thread(SchedulerThread);
+                    m_tSchedulerThread.Name = "Scheduler";
+                    m_tSchedulerThread.IsBackground = true;
                 }
 
-                m_tSchedulerThread.Name = "Scheduler";
-                m_tSchedulerThread.IsBackground = true;
                 m_tSchedulerThread.Start(m_oStartStopScheduler);
 
                 return true;
@@ -109,7 +105,7 @@ namespace BackupperService
             }
             catch (Exception exp)
             {
-                Logger.WriteError(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
+                Logger.WriteErrorLogOnly(exp, "a4569866-14a5-411b-8bb9-f01a4412557f");
             }
         }
 
@@ -145,15 +141,11 @@ namespace BackupperService
                 if (m_oStartStopBackupManager == null)
                 {
                     m_oStartStopBackupManager = new object();
-                }
-
-                if (m_tBackupManagerThread == null)
-                {
                     m_tBackupManagerThread = new Thread(BackupManagerThread);
+                    m_tBackupManagerThread.Name = "BackupManager";
+                    m_tBackupManagerThread.IsBackground = true;
                 }
 
-                m_tBackupManagerThread.Name = "BackupManager";
-                m_tBackupManagerThread.IsBackground = true;
                 m_tBackupManagerThread.Start(m_oStartStopBackupManager);
 
                 return true;
@@ -172,8 +164,6 @@ namespace BackupperService
                 lock (oStop)
                 {
                     DateTime dtStartBackupHour = DateTime.Now;
-
-                    //StopSchedulerThread();
 
                     m_meScheduler.Reset();
 
