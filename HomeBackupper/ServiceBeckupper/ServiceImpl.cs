@@ -72,11 +72,7 @@ namespace BackupperService
 
                 Logger.WriteWarning("An unhandled exception was caught and the service will be stopped.", "7b97e0d4-ceac-4d83-bf36-a41905167617");
 
-                StopCustomService();
-
-                Thread.Sleep(3000);
-
-                StartCustomService();
+                m_BackupManager.HandleTotalRestart();
 
             }
             catch (Exception exp)

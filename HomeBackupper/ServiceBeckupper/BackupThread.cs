@@ -152,6 +152,7 @@ namespace BackupperService
             }
             finally
             {
+                m_tBackupper = null;
                 m_bIsBackupRunning = false;
             }
         }
@@ -163,6 +164,7 @@ namespace BackupperService
                 if (m_oStartStopBackup != null)
                 {
                     m_meBackupFunction.Set();
+
                     Thread.Sleep(100);
 
                     lock (m_oStartStopBackup)
@@ -170,9 +172,9 @@ namespace BackupperService
                         Monitor.Pulse(m_oStartStopBackup);
                     }
 
-                    Thread.Sleep(1000);
+                    Thread.Sleep((int)m_tsBackupperInterval.TotalMilliseconds * 2);
 
-                    if ((m_tBackupper != null) && (m_tBackupper.ThreadState == ThreadState.Stopped))
+                    if (m_tBackupper != null)
                     {
                         m_tBackupper = null;
                     }
