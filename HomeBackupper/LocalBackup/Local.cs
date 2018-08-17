@@ -8,18 +8,20 @@ namespace LocalBackup
 {
     public class Local : IBackup
     {
-        public void BackupFolder(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour, ManualResetEvent _meStopEvent)
+        public long BackupFolder(string _sStartDirSource, string _sStartDirDestination, DateTime _dtStartBackupHour, ManualResetEvent _meStopEvent)
         {
+            long lSizeOfFiles = 0;
+
             try
             {
                 string sFileName = string.Empty;
-                string sDestFile = string.Empty;
+                string sDestFile = string.Empty;    
 
                 // let processor to breathe
                 // and wait for stop process.
                 if (_meStopEvent.WaitOne(10) == true)
                 {
-                    return;
+                    return lSizeOfFiles;
                 }
                 else
                 {
@@ -37,7 +39,7 @@ namespace LocalBackup
                     }
 
                     // copy all files in the root of the source folder
-                    foreach (string f in Directory.GetFiles(_sStartDirSource))
+                    foreach (FileInfo fi in di.GetFiles(_sStartDirSource))
                     {
                         if (_meStopEvent.WaitOne(10) == true)
                         {
@@ -46,9 +48,10 @@ namespace LocalBackup
                         else
                         {
                             // copy all files in the folder
-                            sFileName = Path.GetFileName(f);
+                            sFileName = Path.GetFileName(fi.FullName);
                             sDestFile = Path.Combine(_sStartDirDestination, sFileName);
-                            File.Copy(f, sDestFile, true);
+                            lSizeOfFiles += fi.Length;
+                            fi.CopyTo(sDestFile, true);
                         }
                     }
 
@@ -60,7 +63,7 @@ namespace LocalBackup
                         }
                         else
                         {
-                            BackupFolder(d, _sStartDirDestination, _dtStartBackupHour, _meStopEvent);
+                            lSizeOfFiles += BackupFolder(d, _sStartDirDestination, _dtStartBackupHour, _meStopEvent);
                         }
                     }
                 }
@@ -69,6 +72,8 @@ namespace LocalBackup
             {
                 Logger.WriteErrorLogOnly(exp, "d9cddfe7-f013-4712-990a-1d9fc524d3e1");
             }
+
+            return lSizeOfFiles;
         }
     }
 }

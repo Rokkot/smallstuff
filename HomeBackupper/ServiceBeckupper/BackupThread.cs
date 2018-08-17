@@ -71,7 +71,7 @@ namespace BackupperService
                     string sDestinationRoot = string.Empty;
                     DirectoryInfo di = null;
                     string sFolderName = string.Empty;
-
+                    long lSizeOfFiles = 0;
 
                     IBackup inBackup = (IBackup)Activator.CreateInstance(typeof(T));
 
@@ -114,6 +114,8 @@ namespace BackupperService
 
                                             di = new DirectoryInfo(fi.FolderSourcePath);
 
+                                            fi.NumberOfFilesInSource = di.GetFiles("*", SearchOption.AllDirectories).Length;
+
                                             // if fi.FolderSourcePath = "C:\\" replace the folder name with empty string. 
                                             // Otherwise Path.Combine(sDestinationRoot, "C:\\") will return "C:\\"
                                             sFolderName = (di.Root.FullName != di.Name) ? di.Name : string.Empty;
@@ -127,7 +129,7 @@ namespace BackupperService
                                         }
                                         else
                                         {
-                                            inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, m_meBackupFunction);
+                                            lSizeOfFiles += inBackup.BackupFolder(fi.FolderSourcePath, sDestinationRoot, dtStartBackupHour, m_meBackupFunction);
                                         }
                                     }
 
