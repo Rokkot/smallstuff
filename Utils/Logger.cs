@@ -12,12 +12,28 @@ namespace Utils
 {
 	public static class Logger
 	{
-		/// <summary>
-		/// executable file location
-		/// </summary>
-		/// <param name="_sMessge"></param>
-		/// <param name="_sID"></param>
-		public static void WriteEmergencyLog(string _sMessge, string _sID)
+        public enum LoggingLevel
+        {
+            None = 0,
+            ErrorsOnly = 1,
+            ErrorsAndInfo = 2,
+            ErrorsAndWarnings = 4,
+            All = Int32.MaxValue,
+        }
+
+        private static LoggingLevel m_LogLevel = LoggingLevel.ErrorsOnly;
+
+        public static void SetLogLevel(LoggingLevel _eLogLevel)
+        {
+            m_LogLevel = (_eLogLevel == LoggingLevel.None) ? LoggingLevel.ErrorsOnly : _eLogLevel;
+        }
+
+        /// <summary>
+        /// executable file location
+        /// </summary>
+        /// <param name="_sMessge"></param>
+        /// <param name="_sID"></param>
+        public static void WriteEmergencyLog(string _sMessge, string _sID)
 		{
 			try
 			{
@@ -60,18 +76,24 @@ namespace Utils
 		/// <param name="_sID"></param>
 		public static void WriteInfo(string _sMessge, string _sID)
 		{
-			WriteToEventLog(EventLogEntryType.Information, _sMessge, _sID);
+            if ((m_LogLevel & LoggingLevel.ErrorsAndInfo) == LoggingLevel.ErrorsAndInfo)
+            {
+                WriteToEventLog(EventLogEntryType.Information, _sMessge, _sID);
+            }
 		}
 
-		/// <summary>
-		/// Loggs Warning to EventLog
-		/// </summary>
-		/// <param name="_sMessge"></param>
-		/// <param name="_sID"></param>
-		public static void WriteWarning(string _sMessge, string _sID)
-		{
-			WriteToEventLog(EventLogEntryType.Warning, _sMessge, _sID);
-		}
+        /// <summary>
+        /// Loggs Warning to EventLog
+        /// </summary>
+        /// <param name="_sMessge"></param>
+        /// <param name="_sID"></param>
+        public static void WriteWarning(string _sMessge, string _sID)
+        {
+            if ((m_LogLevel & LoggingLevel.ErrorsAndWarnings) == LoggingLevel.ErrorsAndWarnings)
+            {
+                WriteToEventLog(EventLogEntryType.Warning, _sMessge, _sID);
+            }
+        }
 
 		/// <summary>
 		/// Loggs Error to EventLog

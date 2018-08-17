@@ -50,12 +50,17 @@ namespace BackupperService
                 // Load Settings
                 SettingsManager.Instance.LoadSettings(true);
 
+                Logger.WriteInfo("Start StartCustomService", "477ebd10-c9e5-465b-8193-3d9e8bbeab06");
+
                 // Start OWIN host 
                 HttpService.StartService(Communicator.POSTProc, Communicator.GETProc);
 
                 m_BackupManager = new BackupManager();
 
                 m_BackupManager.StartSchedulerThread();
+
+                Logger.WriteInfo("End StartCustomService", "73641c23-223b-452a-bd06-0b07af4504fb");
+
             }
             catch (Exception exp)
             {
@@ -86,12 +91,17 @@ namespace BackupperService
 		{
             try
             {
+                Logger.WriteInfo("Start StopCustomService", "7ea86d42-34b3-4fdc-88b4-f1190220ab9e");
+
                 HttpService.Stop();
 
                 m_BackupManager.StopBackupManagerThread();
                 m_BackupManager.StopSchedulerThread();
 
                 m_BackupManager = null;
+
+                Logger.WriteInfo("End StopCustomService", "d4c29ea0-6f52-41a0-9ad0-08b859c482d1");
+
             }
             catch (Exception exp)
             {

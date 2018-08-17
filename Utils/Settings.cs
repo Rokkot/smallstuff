@@ -14,9 +14,9 @@ namespace Utils
 		private T m_Settings = default(T);
 
 		public delegate void InitSettingObjecForDebugModeSettingFileCreationDelegate(out T _tSettings);
-
+#if DEBUG
 		private InitSettingObjecForDebugModeSettingFileCreationDelegate m_InitSettingObjecForDebugModeSettingFileCreation = null;
-
+#endif
 		//public delegate void SaveSettingsDelegate(T _tSettings);
 
 		//private SaveSettingsDelegate m_SaveSettingsDelegate = null;

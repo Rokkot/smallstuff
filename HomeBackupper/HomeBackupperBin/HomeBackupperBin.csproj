@@ -1,18 +1,16 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{AAECEB42-D406-4EDE-B54E-C0C4D9D4F583}</ProjectGuid>
+    <ProjectGuid>{FDCBEC2E-91DF-404E-BC07-203CC400054F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>BackupperService</RootNamespace>
-    <AssemblyName>BackupperSrv</AssemblyName>
+    <RootNamespace>HomeBackupperBin</RootNamespace>
+    <AssemblyName>HBPBin.exe</AssemblyName>
     <TargetFrameworkVersion>v4.7.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
-    <WcfConfigValidationEnabled>True</WcfConfigValidationEnabled>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -34,19 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
-  <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
-  </PropertyGroup>
-  <PropertyGroup>
-    <AssemblyOriginatorKeyFile>sgKey.snk</AssemblyOriginatorKeyFile>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Configuration.Install" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Runtime.Serialization" />
-    <Reference Include="System.ServiceModel" />
-    <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -55,32 +43,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\ProductAssemblyInfo.cs">
-      <Link>ProductAssemblyInfo.cs</Link>
-    </Compile>
-    <Compile Include="BackupManager.cs" />
-    <Compile Include="BackupThread.cs" />
-    <Compile Include="SettingsManager.cs" />
-    <Compile Include="Communicator.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="ServiceImpl.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="ServiceImpl.designer.cs">
-      <DependentUpon>ServiceImpl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Installer.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="Installer.designer.cs">
-      <DependentUpon>Installer.cs</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ServiceImpl.resx">
-      <DependentUpon>ServiceImpl.cs</DependentUpon>
-    </EmbeddedResource>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Communication\HTTPCommLib\HTTPCommLib.csproj">
@@ -99,26 +68,18 @@
       <Project>{19fb3497-b861-4f1a-a6c5-f9e203f76367}</Project>
       <Name>LocalBackup</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ServiceBeckupper\ServiceBeckupper.csproj">
+      <Project>{aaeceb42-d406-4ede-b54e-c0c4d9d4f583}</Project>
+      <Name>ServiceBeckupper</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SettingBackupper\SettingBackupper.csproj">
       <Project>{4c55a6e5-c8fb-484e-ad0f-7c57f05c1010}</Project>
       <Name>SettingBackupper</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="app.config" />
-    <None Include="sgKey.snk" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNet.WebApi.OwinSelfHost">
-      <Version>5.2.6</Version>
-    </PackageReference>
+    <ProjectReference Include="..\UIBackupper\Backupper.csproj">
+      <Project>{3c999a6e-6031-4345-8e5a-a08b4b839f90}</Project>
+      <Name>Backupper</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

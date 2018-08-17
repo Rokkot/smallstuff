@@ -128,6 +128,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start HandleToalRestartThread", "37a59b82-accd-4a8b-872e-4abc48ce7d01");
+
                 StopBackupManagerThread();
 
                 Thread.Sleep(3000);
@@ -137,6 +139,9 @@ namespace BackupperService
                 Thread.Sleep(3000);
 
                 StartSchedulerThread();
+
+                Logger.WriteInfo("End HandleToalRestartThread", "1668a27f-e175-402f-92fb-909a825195a1");
+
             }
             catch (Exception exp)
             {
@@ -148,9 +153,13 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start HandleTotalRestart", "37a59b82-accd-4a8b-872e-4abc48ce7d01");
+
                 Thread trHandleRestart = new Thread(HandleToalRestartThread);
                 trHandleRestart.IsBackground = true;
                 trHandleRestart.Start();
+
+                Logger.WriteInfo("End HandleTotalRestart", "ad65cf87-f31f-4aef-8d68-2711b545a674");
             }
             catch (Exception exp)
             {
@@ -163,6 +172,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start StartSchedulerThread", "bb0c2a42-969a-436d-a112-2746d5110a61");
+
                 if (m_oStartStopScheduler == null)
                 {
                     m_oStartStopScheduler = new object();
@@ -180,6 +191,8 @@ namespace BackupperService
 
                 m_tSchedulerThread.Start(m_oStartStopScheduler);
 
+                Logger.WriteInfo("End StartSchedulerThread", "81bec757-bf2f-417d-9a31-1f037485bd69");
+
                 return true;
             }
             catch (Exception exp)
@@ -193,6 +206,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start SchedulerThread", "42eb8f4b-9d1f-4186-91c9-57ee7ea4e90f");
+
                 lock (oStop)
                 {
                     while (true)
@@ -238,6 +253,8 @@ namespace BackupperService
                         }
                     }
                 }
+
+                Logger.WriteInfo("End SchedulerThread", "591a662a-9feb-4026-bb10-2dcfc6e4451d");
             }
             catch (Exception exp)
             {
@@ -253,6 +270,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start StopSchedulerThread", "3903aaab-d6bd-434b-a112-4416afc193f9");
+
                 if (m_oStartStopScheduler != null)
                 {
                     lock (m_oStartStopScheduler)
@@ -267,6 +286,8 @@ namespace BackupperService
                         m_tSchedulerThread = null;
                     }
                 }
+
+                Logger.WriteInfo("End StopSchedulerThread", "97bea120-3bda-43ea-9ec1-fbb9894961ac");
             }
             catch (Exception exp)
             {
@@ -278,6 +299,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start StartBackupManagerThread", "fd05eda5-6389-48c1-85f3-b7b44311c291");
+
                 if (m_oStartStopBackupManager == null)
                 {
                     m_oStartStopBackupManager = new object();
@@ -292,6 +315,8 @@ namespace BackupperService
 
                 m_tBackupManagerThread.Start(m_oStartStopBackupManager);
 
+                Logger.WriteInfo("End StartBackupManagerThread", "16239734-082d-48c7-9622-965d7d9386f8");
+
                 return true;
             }
             catch (Exception exp)
@@ -305,6 +330,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start BackupManagerThread", "10d6ffde-141b-423c-b094-81458fed1910");
+
                 lock (oStop)
                 {
                     DateTime dtStartBackupHour = DateTime.Now;
@@ -364,6 +391,8 @@ namespace BackupperService
                         }
                     }
                 }
+
+                Logger.WriteInfo("End BackupManagerThread", "821c453d-efd5-424a-adc5-5468e87d57c8");
             }
             catch (Exception exp)
             {
@@ -385,6 +414,8 @@ namespace BackupperService
         {
             try
             {
+                Logger.WriteInfo("Start StopBackupManagerThread", "62e95751-4085-45df-bfbc-a05c697c048e");
+
                 if (m_oStartStopBackupManager != null)
                 {
                     lock (m_oStartStopBackupManager)
@@ -399,6 +430,8 @@ namespace BackupperService
                         m_tBackupManagerThread = null;
                     }
                 }
+
+                Logger.WriteInfo("End StopBackupManagerThread", "9329314a-7e8b-41eb-8413-db471fc7790d");
             }
             catch (Exception exp)
             {

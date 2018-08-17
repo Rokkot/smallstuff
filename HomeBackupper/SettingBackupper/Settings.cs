@@ -18,9 +18,7 @@ namespace SettingBackupper
     public class Settings
     {
         private static string C_KEY_SETTINGS = "Settings";
-
-        //private Dictionary<string, FolderInfo> m_dictFolderInfo = new Dictionary<string, FolderInfo>();
-
+        public int LogLevel { get; set; }
         public DateTime BackupTime { get; set; }
         public int BackupDays { get; set; }
         public bool WatchFolders { get; set; }

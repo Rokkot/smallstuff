@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Utils;
+using static Utils.Logger;
 
 namespace BackupperService
 {
@@ -32,6 +33,8 @@ namespace BackupperService
                     m_dictSettings.LoadData();
 
                     m_Settings = m_dictSettings[Settings.GetUnitKey()];
+
+                    Logger.SetLogLevel((LoggingLevel)m_Settings.LogLevel);
                 }
             }
             catch (Exception exp)
