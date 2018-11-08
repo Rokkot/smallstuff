@@ -11,6 +11,23 @@ using Utils;
 
 namespace BackupperService
 {
+    // Multi-Threading toolkit
+    // https://docs.eyesopen.com/toolkits/csharp/oechemtk/multithreading.html
+
+
+    // ROBOCOPY
+    // https://github.com/tjscience/RoboSharp C#
+    // https://blogs.msdn.microsoft.com/granth/2009/12/07/multi-threaded-robocopy-for-faster-copies/
+    // https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/robocopy
+    // https://ss64.com/nt/robocopy.html
+
+    // MTCopy: A Multi-threaded Single/Multi File Copying Tool
+    // https://www.codeproject.com/Articles/24984/MTCopy-A-Multi-threaded-Single-Multi-File-Copying
+
+    // Multi threaded file processing with .NET
+    // https://stackoverflow.com/questions/2807654/multi-threaded-file-processing-with-net
+    // https://dotnetfiddle.net/5yQ4Vc
+
     public class BackupManager
     {
         private TimeSpan m_tsSchedulerInterval = TimeSpan.Zero;
