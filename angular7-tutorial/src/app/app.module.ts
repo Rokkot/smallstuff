@@ -5,12 +5,14 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CarListComponent } from './Cars/cars.component';
+import { CarListComponent } from './cars/cars.component';
+import { CarAlertsComponent } from './car-alerts/car-alerts.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    CarListComponent
+    CarListComponent,
+    CarAlertsComponent
   ],
   imports: [
     BrowserModule,
@@ -21,6 +23,7 @@ import { CarListComponent } from './Cars/cars.component';
     AppRoutingModule
   ],
   providers: [],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [CarAlertsComponent]
 })
 export class AppModule { }

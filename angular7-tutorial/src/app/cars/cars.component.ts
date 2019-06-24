@@ -9,12 +9,28 @@ import { cars } from '../cars';
   })
 export class CarListComponent {
   cars = cars;
+  //IsNotifyOn = false;
 
   share(name) {
-    window.alert(this.newMethod(name));
+    this.displayMessage(this.newMethod(name));
+  }
+
+  onNotify(){
+    this.displayMessage('You will be notified when the product goes on sale');
+   
+  }
+
+  onNotify2(car){
+       //this.IsNotifyOn = true;
+       car.isNotifyOn = !car.isNotifyOn;
   }
 
   private newMethod(name): any {
     return 'The \'' + name + '\' car has been shared!';
   }
+
+  private displayMessage(message: string){
+    window.alert(message);
+  }
+
 }

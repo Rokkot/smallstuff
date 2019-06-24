@@ -17,4 +17,13 @@
             Share
     </button>
 
+    <app-car-alerts
+        [car]="car"
+        (notify)="onNotify2(car)">  
+    </app-car-alerts>
+
+    <p *ngIf="car.isNotifyOn; else elseNotificationBlock">You will be notified when the product goes on sale.
+    </p>
+
+    <ng-template #elseNotificationBlock><p>Notification is off.</p></ng-template>
 </div>
