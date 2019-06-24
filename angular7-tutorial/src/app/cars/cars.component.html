@@ -1,7 +1,20 @@
 <h2>Cars</h2>
 
-<div *ngFor="let cars of cars">
+
+
+<div *ngFor="let car of cars">
     <h3>
-        {{ cars.name }}
+        <a [title]="car.name + ' details'">
+            {{ car.name }}
+        </a>
     </h3>
+
+    <p *ngIf="car.description">
+            Description: {{ car.description }}
+    </p>
+
+    <button (click)="share(car.name)">
+            Share
+    </button>
+
 </div>

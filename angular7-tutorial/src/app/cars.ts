@@ -10,7 +10,7 @@ export const cars = [
       description: 'A sport car'
     },
     {
-      name: 'Ford 150',
+      name: 'Ford F150',
       price: 299,
       description: 'A pickup truck'
     }

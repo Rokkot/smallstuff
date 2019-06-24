@@ -10,11 +10,11 @@ import { cars } from '../cars';
 export class CarListComponent {
   cars = cars;
 
-  share() {
-    window.alert(this.newMethod());
+  share(name) {
+    window.alert(this.newMethod(name));
   }
 
-  private newMethod(): any {
-    return 'The car has been shared!';
+  private newMethod(name): any {
+    return 'The \'' + name + '\' car has been shared!';
   }
 }
