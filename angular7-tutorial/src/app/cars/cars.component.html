@@ -1,0 +1,29 @@
+<h2>Cars</h2>
+
+
+
+<div *ngFor="let car of cars">
+    <h3>
+        <a [title]="car.name + ' details'">
+            {{ car.name }}
+        </a>
+    </h3>
+
+    <p *ngIf="car.description">
+            Description: {{ car.description }}
+    </p>
+
+    <button (click)="share(car.name)">
+            Share
+    </button>
+
+    <app-car-alerts
+        [car]="car"
+        (notify)="onNotify2(car)">  
+    </app-car-alerts>
+
+    <p *ngIf="car.isNotifyOn; else elseNotificationBlock">You will be notified when the product goes on sale.
+    </p>
+
+    <ng-template #elseNotificationBlock><p>Notification is off.</p></ng-template>
+</div>
