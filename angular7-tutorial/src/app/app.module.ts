@@ -7,18 +7,21 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CarListComponent } from './cars/cars.component';
 import { CarAlertsComponent } from './car-alerts/car-alerts.component';
+import { CarDetailsComponent } from './car-details/car-details.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CarListComponent,
-    CarAlertsComponent
+    CarAlertsComponent,
+    CarDetailsComponent
   ],
   imports: [
     BrowserModule,
     ReactiveFormsModule,
     RouterModule.forRoot([
-      { path: '', component: CarListComponent }
+      { path: '', component: CarListComponent },
+      { path: 'cars/:carId', component: CarDetailsComponent },
     ]),
     AppRoutingModule
   ],

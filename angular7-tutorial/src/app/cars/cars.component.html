@@ -2,9 +2,9 @@
 
 
 
-<div *ngFor="let car of cars">
+<div *ngFor="let car of cars; index as carId">
     <h3>
-        <a [title]="car.name + ' details'">
+        <a [title]="car.name + ' details'" [routerLink]="['/cars', carId]">
             {{ car.name }}
         </a>
     </h3>
