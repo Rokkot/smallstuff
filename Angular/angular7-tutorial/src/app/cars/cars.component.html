@@ -3,6 +3,16 @@
 
 
 <div *ngFor="let car of cars; index as carId">
+        <!--<popover-content #myPopover
+            placement="right" 
+            title="this header can be omitted"
+            [closeOnClickOutside]="true">
+            <span style="color: #C21F39">Dynamic</span>
+            automatically.
+        </popover-content>
+ 
+        <button [popover]="myPopover">click this button to see a popover</button>-->
+
     <h3>
         <a [title]="car.name + ' details'" [routerLink]="['/cars', carId]">
             {{ car.name }}
