@@ -1,1 +1,26 @@
-<p>hero-detail works!</p>
+<!--<div class="ib" *ngIf="hero">
+    <h2 class="badge">{{hero.name | uppercase}} Details</h2>
+    <div>
+        <span>id: </span>{{hero.id}}
+    </div>
+    <div>
+        <label>name:
+            <input [(ngModel)]="hero.name" placeholder="name" />
+        </label>
+    </div>
+</div>-->
+
+<div class="ib" *ngIf="hero" >
+    <div class="callout-header">{{hero.name | uppercase}} Details</div>
+    <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>-->
+    <div class="callout-container">
+        <div>
+            <span>id: </span>{{hero.id}}
+        </div>
+        <div>
+            <label>name:
+                <input [(ngModel)]="hero.name" placeholder="name" />
+            </label>
+        </div>
+    </div>
+</div>

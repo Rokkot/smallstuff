@@ -1,4 +1,6 @@
 /* HeroesComponent's private CSS styles */
+
+
 .heroes {
   margin: 0 0 2em 0;
   list-style-type: none;
@@ -31,6 +33,26 @@
 
 .heroes a:hover {
   color:#607D8B;
+}
+
+/*Inline-block aligned elements*/
+.ib {
+  /* These styles are for aesthetics only.*/
+font-size: 18px;
+line-height: 1.3em;
+vertical-align: top;
+margin-bottom: 1em;
+border-radius: 0.5em;
+padding: 1em;
+/* This insures everything up to the border
+ is included in the width*/
+box-sizing: border-box;
+/*The default width of my divs*/
+width: 40%;
+background: transparent;
+border: solid black 1px;
+/*Overrides default display (which would be block)*/
+display: inline-block;
 }
 
 .heroes .badge {

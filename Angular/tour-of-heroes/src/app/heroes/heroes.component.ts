@@ -11,13 +11,24 @@ export class HeroesComponent implements OnInit {
 
   heroes = HEROES;
   selectedHero: Hero;
+  isBtnClicked: boolean = false;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onSelect(hero: Hero){
+  onClick(hero: Hero){
     this.selectedHero = hero;
+    this.isBtnClicked = true;
+  }
+
+  onMouseEnter(hero: Hero){
+    this.selectedHero = hero;
+  }
+
+  onMouseLeave(hero: Hero){
+    if( this.isBtnClicked == false)
+      this.selectedHero = null;
   }
 }
