@@ -20,7 +20,6 @@ import { PopoverModule } from 'ngx-smart-popover';
   imports: [
     BrowserModule,
     ReactiveFormsModule,
-    PopoverModule,
     RouterModule.forRoot([
       { path: '', component: CarListComponent },
       { path: 'cars/:carId', component: CarDetailsComponent },
