@@ -1,6 +1,11 @@
-
-<div class="tooltip"> adasdasd
+<!--<div class="tooltip"> adasdasd
     <div class="tooltiptext" *ngIf="hero">{{hero.name}}</div>
-</div>
+</div>-->
 
 <!--<div class="tooltiptext" *ngIf="hero">{{hero.name}}</div>-->
+
+<div class="tooltip" *ngIf="hero">
+    <div class="">
+        <span class="badge">{{hero.id}}</span> {{hero.name}}
+    </div>
+</div>

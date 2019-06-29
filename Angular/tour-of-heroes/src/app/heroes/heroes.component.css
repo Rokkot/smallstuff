@@ -1,17 +1,44 @@
 /* HeroesComponent's private CSS styles */
+/*Inline-block aligned elements*/
+.ib {
+  /* These styles are for aesthetics only.*/
+font-size: 18px;
+line-height: 1.3em;
+vertical-align: top;
+margin-bottom: 1em;
+border-radius: 0.5em;
+padding: 0em;
+/* This insures everything up to the border
+ is included in the width*/
+box-sizing: border-box;
+/*The default width of my divs*/
+width: 50%;
+background-color: rgb(255, 253, 253);
+border: none black 1px;
+/*Overrides default display (which would be block)*/
+display: inline-block;
+}
 
+.ib .header {
+  padding: 25px 15px;
+  margin-top: 0em;
+  font-size: 30px;
+  background: #405061;
+  color: white;
+  border-radius: 0.5em 0.5em 0em 0em;
+}
 
 .heroes {
   margin: 0 0 2em 0;
   list-style-type: none;
   padding: 0;
-  width: 15em;
+  width: 100%;
 }
 .heroes li {
   position: relative;
   cursor: pointer;
   background-color: #EEE;
-  margin: .5em;
+  margin: 0.5em 0em 0.5em 0em;
   padding: .3em 0;
   height: 1.6em;
   border-radius: 4px;
@@ -33,26 +60,6 @@
 
 .heroes a:hover {
   color:#607D8B;
-}
-
-/*Inline-block aligned elements*/
-.ib {
-  /* These styles are for aesthetics only.*/
-font-size: 18px;
-line-height: 1.3em;
-vertical-align: top;
-margin-bottom: 1em;
-border-radius: 0.5em;
-padding: 1em;
-/* This insures everything up to the border
- is included in the width*/
-box-sizing: border-box;
-/*The default width of my divs*/
-width: 40%;
-background: transparent;
-border: solid black 1px;
-/*Overrides default display (which would be block)*/
-display: inline-block;
 }
 
 .heroes .badge {
@@ -92,6 +99,39 @@ button.delete {
   top: -32px;
   background-color: gray !important;
   color: white;
+}
+
+.heroes .tooltiptext {
+  visibility: hidden;
+  width: 120px;
+  background-color: #555;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px 0;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -60px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.heroes .tooltiptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #555 transparent transparent transparent;
+}
+
+.heroes:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
 
 /*

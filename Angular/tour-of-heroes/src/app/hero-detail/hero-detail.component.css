@@ -5,14 +5,14 @@
   font-size: 18px;
   line-height: 1.3em;
   vertical-align: top;
-  margin: 1em;
+  margin-left: 1em;
   border-radius: 0.5em;
   padding: 0em 0em 0em 0em;
   /* This insures everything up to the border
      is included in the width*/
   box-sizing: border-box;
   /*The default width of my divs*/
-  width: 40%;
+  width: 47%;
   background: rgba(83, 80, 80, 0.288);
   border: none gray 1px;
   /*Overrides default display (which would be block)*/

@@ -9,18 +9,20 @@
         </label>
     </div>
 </div>-->
+    
+    <div class="ib" *ngIf="hero">
 
-<div class="ib" *ngIf="hero" >
-    <div class="callout-header">{{hero.name | uppercase}} Details</div>
-    <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>-->
-    <div class="callout-container">
-        <div>
-            <span>id: </span>{{hero.id}}
-        </div>
-        <div>
-            <label>name:
-                <input [(ngModel)]="hero.name" placeholder="name" />
-            </label>
+
+        <div class="callout-header">{{hero.name | uppercase}} Details</div>
+        <!--<span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>-->
+        <div class="callout-container">
+            <div>
+                <span>id: </span>{{hero.id}}
+            </div>
+            <div>
+                <label>name:
+                    <input [(ngModel)]="hero.name" placeholder="name" />
+                </label>
+            </div>
         </div>
     </div>
-</div>
