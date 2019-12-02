@@ -72,8 +72,8 @@ namespace VSTS_Test_Cases_HTML_to_Text
         static void Info()
         {
             Console.WriteLine("---------------------------------------------------------------------------------------");
-            Console.WriteLine("The CSV_HTML_to_Text convers HTML script into plane text in CSV files");
-            Console.WriteLine("CSV_HTML_to_Text.exe [path to a CSV file that needs to be converted] [path to the output file]");
+            Console.WriteLine("The VSTS_Test_Cases_HTML_to_Text convers HTML script into plane text in CSV files");
+            Console.WriteLine("VSTS_Test_Cases_HTML_to_Text.exe [path to a CSV file that needs to be converted] [path to the output file]");
             Console.WriteLine("If the output *.csv file exists it will be overwritten.");
             Console.WriteLine("---------------------------------------------------------------------------------------\r\n");
         }
