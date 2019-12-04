@@ -319,10 +319,11 @@ namespace VSTS_Test_Cases_HTML_to_Text
         public static string ExtractHTML_TAG(this string _sText, string _sSubStrStart, string _sSubStrEnd)
         {
             int iStartOfStep = _sText.IndexOf(_sSubStrStart);
-            int iStartOfEnd = _sText.IndexOf(_sSubStrEnd) + _sSubStrEnd.Length;
+            int iStartOfEnd = _sText.IndexOf(_sSubStrEnd);
 
             if ((iStartOfStep >= 0) && (iStartOfEnd > 0) && (iStartOfEnd < _sText.Length))
             {
+                iStartOfEnd += _sSubStrEnd.Length;
                 return _sText.Substring(iStartOfStep, iStartOfEnd - iStartOfStep);
             }
 
