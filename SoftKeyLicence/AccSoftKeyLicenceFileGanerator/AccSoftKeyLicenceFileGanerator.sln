@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28010.2048
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AccSoftKeyLicenceFileGanerator", "AccSoftKeyLicenceFileGanerator.csproj", "{21F2B7D6-2C02-422C-9EF2-A7711BC20227}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SoftKeyUtils", "..\SoftKeyUtils\SoftKeyUtils.csproj", "{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		GebugGAC|Any CPU = GebugGAC|Any CPU
+		Release|Any CPU = Release|Any CPU
+		ReleaseProduction|Any CPU = ReleaseProduction|Any CPU
+		ReleaseSoftKey|Any CPU = ReleaseSoftKey|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.GebugGAC|Any CPU.ActiveCfg = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.GebugGAC|Any CPU.Build.0 = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.Release|Any CPU.Build.0 = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.ReleaseProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.ReleaseProduction|Any CPU.Build.0 = Release|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.ReleaseSoftKey|Any CPU.ActiveCfg = ReleaseSoftKey|Any CPU
+		{21F2B7D6-2C02-422C-9EF2-A7711BC20227}.ReleaseSoftKey|Any CPU.Build.0 = ReleaseSoftKey|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.GebugGAC|Any CPU.ActiveCfg = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.GebugGAC|Any CPU.Build.0 = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.ReleaseProduction|Any CPU.ActiveCfg = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.ReleaseProduction|Any CPU.Build.0 = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.ReleaseSoftKey|Any CPU.ActiveCfg = Release|Any CPU
+		{24714CA9-FBC1-4FBE-B02A-16D944ADE6BA}.ReleaseSoftKey|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {5160B256-351A-48AA-A3C0-DF41CD902F27}
+	EndGlobalSection
+EndGlobal
