@@ -1,0 +1,12 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div style="text-align:center">
+  <h1>
+    {{ title }} Extanded! 
+  </h1>
+  <app-radio-btn [isCardViewMode]="useCardView" (modeChange)="onViewModeChanged($event)"></app-radio-btn>
+</div>
+
+
+<app-heroes [useCardView]="useCardView"></app-heroes>
+
+<router-outlet></router-outlet>
